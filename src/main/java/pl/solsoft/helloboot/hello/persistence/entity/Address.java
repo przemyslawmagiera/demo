@@ -1,5 +1,7 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -10,28 +12,28 @@ import java.util.List;
 @Entity
 public class Address implements Serializable {
     @Id
+    @NotNull
     @Column(name = "address_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Pattern(regexp = "[a-zA-Z0-9]+")
-    @Column(name = "street", nullable = false)
+    @NotBlank
+    @Size(max = 255)
+    @Column(name = "street", nullable = false, length = 255)
     private String street;
 
-    @Pattern(regexp = "\\d+.?")
+    @NotBlank
+    @Size(max = 255)
     @Column(name = "number", nullable = false)
-    @Size(min = 2, max = 255, message = "Number must be between 10 and 255 characters")
     private String number;
 
-    @Pattern(regexp = "[a-zA-Z0-9]+")
     @Column(name = "flat_number", nullable = true)
     private String flatNumber;
 
-    @Pattern(regexp = "\\d{2}-?\\d{3}")
+    @NotNull(message = "Code cannot be null")
     @Column(name = "code", nullable = false)
     private String code;
 
-    @Pattern(regexp = "[a-zA-Z0-9]+")
     @NotNull(message = "City cannot be null")
     @Column(name = "city", nullable = false)
     private String city;

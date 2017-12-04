@@ -1,17 +1,20 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Table(name = "person", indexes = {
+        @Index(name = "person_index", columnList = "name,email,eye_color,sex,number_of_children", unique = false)
+})
 public class Person implements Serializable {
     @Id
     @Column(name = "person_id", unique = true)
@@ -19,29 +22,30 @@ public class Person implements Serializable {
     @NotNull(message = "Id cannot be null")
     private Long id;
 
-    @Pattern(regexp = "[a-zA-Z]+")
-    @NotNull(message = "Name cannot be null")
-    @Size(min = 2, max = 255, message = "Name must be between 2 and 255 characters")
-    @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(max = 255)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Pattern(regexp = "[a-zA-Z]+")
-    @NotNull(message = "Last name cannot be null")
-    @Size(min = 2, max = 255, message = "Last name must be between 2 and 255 characters")
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
+    @NotBlank
+    @Email
+    @Size(max = 255)
+    @Column(name = "email", nullable = false, length = 255)
+    private String email;
 
-    @NotNull(message = "Eye color cannot be null")
+    @NotEmpty
+    @Size(max = 255)
     @Enumerated(EnumType.STRING)
-    @Column(name = "eye_color", nullable = false)
+    @Column(name = "eye_color", nullable = false, length = 255)
     private EyeColor eyeColor;
 
-    @NotNull(message = "Sex cannot be null")
+    @NotEmpty
+    @Size(max = 255)
     @Enumerated(EnumType.STRING)
-    @Column(name = "sex", nullable = false)
+    @Column(name = "sex", nullable = false, length = 255)
     private Sex sex;
 
-    @NotNull(message = "Number of children cannot be null")
+    @NotNull
     @Column(name = "number_of_children", nullable = false)
     private Integer numberOfChildren = 0;
 
@@ -72,12 +76,12 @@ public class Person implements Serializable {
         this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public EyeColor getEyeColor() {

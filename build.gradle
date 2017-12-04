@@ -4,7 +4,7 @@ buildscript {
 		hibernateVersion = '5.2.2.Final'
 		hibernateValidatorVersion = '5.3.6.Final'
 		springORMVersion = '4.3.13.RELEASE'
-		springCoreVersion = '4.3.13.RELEASE'
+//		springCoreVersion = '4.3.13.RELEASE'
 		psqlVersion = '9.4.1212.jre7'
 	}
 	repositories {
@@ -26,10 +26,10 @@ sourceCompatibility = 1.8
 repositories {
 	mavenCentral()
 }
-
+//ext['hibernate.version'] = '4.3.11.Final'
 dependencies {
 	compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
-	compile "org.springframework:spring-core:$springCoreVersion"
+//	compile "org.springframework:spring-core:$springCoreVersion"
 	compile "org.hibernate:hibernate-core:$hibernateVersion"
 	compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
 	compile "org.springframework:spring-orm:$springORMVersion"
