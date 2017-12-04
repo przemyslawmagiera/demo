@@ -1,6 +1,11 @@
 buildscript {
 	ext {
 		springBootVersion = '1.5.8.RELEASE'
+		hibernateVersion = '5.2.2.Final'
+		hibernateValidatorVersion = '5.3.6.Final'
+		springORMVersion = '4.3.13.RELEASE'
+		springCoreVersion = '4.3.13.RELEASE'
+		psqlVersion = '9.4.1212.jre7'
 	}
 	repositories {
 		mavenCentral()
@@ -23,9 +28,12 @@ repositories {
 }
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter')
-	compile('org.hibernate:hibernate-core:5.2.2.Final')
-	compile('org.springframework:spring-orm')
-	compile('org.postgresql:postgresql')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
+	compile "org.springframework:spring-core:$springCoreVersion"
+	compile "org.hibernate:hibernate-core:$hibernateVersion"
+	compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
+	compile "org.springframework:spring-orm:$springORMVersion"
+	compile "org.postgresql:postgresql:$psqlVersion"
+
+	testCompile "org.springframework.boot:spring-boot-starter-test"
 }

@@ -1,119 +1,122 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import pl.solsoft.helloboot.hello.enumeration.EyeColor;
+import pl.solsoft.helloboot.hello.enumeration.Sex;
+
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Person
-{
+public class Person implements Serializable {
     @Id
-    @Column(name = "PERSON_ID")
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "person_id", unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull(message = "Id cannot be null")
     private Long id;
 
-    @Column(name = "NAME")
+    @Pattern(regexp = "[a-zA-Z]+")
+    @NotNull(message = "Name cannot be null")
+    @Size(min = 2, max = 255, message = "Name must be between 2 and 255 characters")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "LAST_NAME")
+    @Pattern(regexp = "[a-zA-Z]+")
+    @NotNull(message = "Last name cannot be null")
+    @Size(min = 2, max = 255, message = "Last name must be between 2 and 255 characters")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "EYE_COLOR")
-    private String eyeColor;
+    @NotNull(message = "Eye color cannot be null")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "eye_color", nullable = false)
+    private EyeColor eyeColor;
 
-    @Column(name = "SEX")
-    private String sex;
+    @NotNull(message = "Sex cannot be null")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sex", nullable = false)
+    private Sex sex;
 
-    @Column(name = "NUMBER_OF_CHILDREN")
-    private Integer numberOfChildren;
+    @NotNull(message = "Number of children cannot be null")
+    @Column(name = "number_of_children", nullable = false)
+    private Integer numberOfChildren = 0;
 
-    @OneToMany(targetEntity = Car.class, mappedBy = "person", cascade = CascadeType.ALL) //cascades are not needed here
+    @OneToMany(targetEntity = Car.class, mappedBy = "person", cascade = CascadeType.ALL)
     private List<Car> cars;
 
     @ManyToMany
     @JoinTable(
-            name = "Person_Address",
-            joinColumns = { @JoinColumn(name = "PERSON_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "ADDRESS_ID") }
+            name = "person_address",
+            joinColumns = {@JoinColumn(name = "person_id")},
+            inverseJoinColumns = {@JoinColumn(name = "address_id")}
     )
     private List<Address> addresses;
 
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Long id)
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName)
-    {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getEyeColor()
-    {
+    public EyeColor getEyeColor() {
         return eyeColor;
     }
 
-    public void setEyeColor(String eyeColor)
-    {
+    public void setEyeColor(EyeColor eyeColor) {
         this.eyeColor = eyeColor;
     }
 
-    public String getSex()
-    {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex(String sex)
-    {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
-    public Integer getNumberOfChildren()
-    {
+    public Integer getNumberOfChildren() {
         return numberOfChildren;
     }
 
-    public void setNumberOfChildren(Integer numberOfChildren)
-    {
+    public void setNumberOfChildren(Integer numberOfChildren) {
         this.numberOfChildren = numberOfChildren;
     }
 
-    public List<Car> getCars()
-    {
+    public List<Car> getCars() {
         return cars;
     }
 
-    public void setCars(List<Car> cars)
-    {
+    public void setCars(List<Car> cars) {
         this.cars = cars;
     }
 
-    public List<Address> getAddresses()
-    {
+    public List<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses)
-    {
+    public void setAddresses(List<Address> addresses) {
         this.addresses = addresses;
     }
 }

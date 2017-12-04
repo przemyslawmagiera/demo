@@ -12,19 +12,16 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableAutoConfiguration
-public class TraditionalPersistenceXmlConfiguration
-{
+public class TraditionalPersistenceXmlConfiguration {
     @Bean
-    public LocalEntityManagerFactoryBean entityManagerFactory()
-    {
+    public LocalEntityManagerFactoryBean entityManagerFactory() {
         LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
         factoryBean.setPersistenceUnitName("default");
         return factoryBean;
     }
 
     @Bean
-    public DataSource dataSource()
-    {
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setUrl("jdbc:postgresql://localhost:5432/demo");
         dataSource.setUsername("demo");
