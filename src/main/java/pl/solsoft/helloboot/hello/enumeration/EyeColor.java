@@ -7,8 +7,7 @@ public enum EyeColor {
 
     private final String color;
 
-    //private constructor
-    EyeColor(String color) {
+    private EyeColor(String color) {
         this.color = color;
     }
 

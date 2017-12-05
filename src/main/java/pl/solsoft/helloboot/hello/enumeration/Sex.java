@@ -6,8 +6,7 @@ public enum Sex {
 
     private final String name;
 
-    //private constructor
-    Sex(String s) {
+    private Sex(String s) {
         name = s;
     }
 

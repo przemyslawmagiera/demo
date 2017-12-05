@@ -37,6 +37,9 @@ public class Car implements Serializable {
     @JoinColumn(name = "person_id")
     private Person person;
 
+    public Car() {
+    }
+
     public Long getId() {
         return id;
     }

@@ -13,14 +13,14 @@ import java.util.List;
 @Entity
 @Table(name = "address", indexes = {
         @Index(name = "person_id_idx", columnList = "address_id", unique = true),
-        @Index(name = "person_street_idx", columnList = "street, number, flat_number", unique = false),
+        @Index(name = "person_street_idx", columnList = "street", unique = false),
         @Index(name = "person_number_idx", columnList = "number", unique = false),
         @Index(name = "person_flat_number_idx", columnList = "flat_number", unique = false)
 })
 public class Address implements Serializable {
     @Id
     @NotNull
-    @Column(name = "address_id", unique = true)
+    @Column(name = "address_id")
     @GenericGenerator(
             name = "address_id_seq",
             strategy = "sequence",
@@ -63,6 +63,9 @@ public class Address implements Serializable {
             joinColumns = {@JoinColumn(name = "address_id", referencedColumnName = "address_id")}
     )
     private List<Person> people;
+
+    public Address(){
+    }
 
     public Long getId() {
         return id;

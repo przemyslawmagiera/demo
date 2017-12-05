@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "person", indexes = {
-        @Index(name = "person_id_idx", columnList = "car_id", unique = true),
+        @Index(name = "person_id_idx", columnList = "person_id", unique = true),
         @Index(name = "person_email_idx", columnList = "email", unique = true),
         @Index(name = "person_number_children_idx", columnList = "number_of_children", unique = false)
 })
@@ -67,6 +67,9 @@ public class Person implements Serializable {
 
     @ManyToMany(mappedBy = "people", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Address> addresses = new ArrayList<>();
+
+    public Person() {
+    }
 
     public Long getId() {
         return id;
