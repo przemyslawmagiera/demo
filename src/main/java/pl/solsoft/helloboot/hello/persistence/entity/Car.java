@@ -1,23 +1,36 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "car", indexes = {
-        @Index(name = "car_index", columnList = "name,email,eye_color,sex,number_of_children", unique = false)
+        @Index(name = "car_id_idx", columnList = "car_id", unique = true),
+        @Index(name = "car_plate_number_idx", columnList = "plate_number", unique = true)
 })
 public class Car implements Serializable {
     @Id
-    @Column(name = "car_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull(message = "Id cannot be null")
+    @NotNull
+    @Column(name = "car_id", unique = true)
+    @GenericGenerator(
+            name = "car_id_seq",
+            strategy = "sequence",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "car_id_seq",
+                            value = "sequence"
+                    )
+
+            })
+    @GeneratedValue(generator = "car_id_seq")
     private Long id;
 
-    @NotNull(message = "Plate number cannot be null")
-    @Column(name = "plate_number", nullable = false, length = 255)
+    @NotBlank
+    @Column(name = "plate_number", nullable = false, length = 255, unique = true)
     private String plateNumber;
 
     @ManyToOne(targetEntity = Person.class)

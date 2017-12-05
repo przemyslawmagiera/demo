@@ -1,5 +1,6 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -10,11 +11,27 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Table(name = "address", indexes = {
+        @Index(name = "person_id_idx", columnList = "address_id", unique = true),
+        @Index(name = "person_street_idx", columnList = "street, number, flat_number", unique = false),
+        @Index(name = "person_number_idx", columnList = "number", unique = false),
+        @Index(name = "person_flat_number_idx", columnList = "flat_number", unique = false)
+})
 public class Address implements Serializable {
     @Id
     @NotNull
-    @Column(name = "address_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "address_id", unique = true)
+    @GenericGenerator(
+            name = "address_id_seq",
+            strategy = "sequence",
+            parameters = {
+                    @org.hibernate.annotations.Parameter(
+                            name = "address_id_seq",
+                            value = "sequence"
+                    )
+
+            })
+    @GeneratedValue(generator = "address_id_seq")
     private Long id;
 
     @NotBlank
@@ -24,21 +41,27 @@ public class Address implements Serializable {
 
     @NotBlank
     @Size(max = 255)
-    @Column(name = "number", nullable = false)
+    @Column(name = "number", nullable = false, length = 255)
     private String number;
 
-    @Column(name = "flat_number", nullable = true)
+    @Size(max = 255)
+    @Column(name = "flat_number", nullable = true, length = 255)
     private String flatNumber;
 
-    @NotNull(message = "Code cannot be null")
-    @Column(name = "code", nullable = false)
+    @NotBlank
+    @Column(name = "code", nullable = false, length = 255)
     private String code;
 
-    @NotNull(message = "City cannot be null")
-    @Column(name = "city", nullable = false)
+    @NotBlank
+    @Column(name = "city", nullable = false, length = 255)
     private String city;
 
-    @ManyToMany(mappedBy = "addresses")
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "address_person",
+            inverseJoinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "person_id")},
+            joinColumns = {@JoinColumn(name = "address_id", referencedColumnName = "address_id")}
+    )
     private List<Person> people;
 
     public Long getId() {
@@ -91,9 +114,5 @@ public class Address implements Serializable {
 
     public List<Person> getPeople() {
         return people;
-    }
-
-    public void setPeople(List<Person> people) {
-        this.people = people;
     }
 }

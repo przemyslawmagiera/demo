@@ -33,9 +33,6 @@ CREATE TABLE car
 );
 
 CREATE INDEX person_id_idx ON person USING btree (person_id);
-CREATE INDEX eye_color_idx ON person USING btree (eye_color);
-CREATE INDEX last_name_idx ON person USING btree (last_name);
-CREATE INDEX name_idx ON person USING btree (name);
 CREATE INDEX child_number_idx ON person USING btree (number_of_children);
 
 CREATE INDEX address_id_idx ON address USING btree (address_id);
