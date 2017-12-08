@@ -15,8 +15,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "person", indexes = {
-        @Index(name = "person_id_idx", columnList = "person_id", unique = true),
-        @Index(name = "person_email_idx", columnList = "email", unique = true),
         @Index(name = "person_number_children_idx", columnList = "number_of_children", unique = false)
 })
 public class Person implements Serializable {
@@ -42,30 +40,28 @@ public class Person implements Serializable {
 
     @NotBlank
     @Email
-    @Size(max = 255)
+    @Size(max = 254)
     @Column(name = "email", nullable = false, length = 255, unique = true)
     private String email;
 
-    @NotEmpty
-    @Size(max = 255)
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "eye_color", nullable = false, length = 255)
+    @Column(name = "eye_color", nullable = false, length = 5)
     private EyeColor eyeColor;
 
-    @NotEmpty
-    @Size(max = 255)
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "sex", nullable = false, length = 255)
+    @Column(name = "sex", nullable = false, length = 1)
     private Sex sex;
 
     @NotNull
     @Column(name = "number_of_children", nullable = false)
-    private Integer numberOfChildren = 0;
+    private int numberOfChildren = 0;
 
-    @OneToMany(targetEntity = Car.class, mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Car.class, mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Car> cars = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "people", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "people", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private List<Address> addresses = new ArrayList<>();
 
     public Person() {

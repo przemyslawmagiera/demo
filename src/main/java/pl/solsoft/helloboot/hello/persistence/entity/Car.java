@@ -4,17 +4,12 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "car", indexes = {
-        @Index(name = "car_id_idx", columnList = "car_id", unique = true),
-        @Index(name = "car_plate_number_idx", columnList = "plate_number", unique = true)
-})
+@Table(name = "car")
 public class Car implements Serializable {
     @Id
-    @NotNull
     @Column(name = "car_id", unique = true)
     @GenericGenerator(
             name = "car_id_seq",
@@ -33,7 +28,7 @@ public class Car implements Serializable {
     @Column(name = "plate_number", nullable = false, length = 255, unique = true)
     private String plateNumber;
 
-    @ManyToOne(targetEntity = Person.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
 

@@ -12,8 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "address", indexes = {
-        @Index(name = "person_id_idx", columnList = "address_id", unique = true),
-        @Index(name = "person_street_idx", columnList = "street", unique = false),
+        @Index(name = "person_code_idx", columnList = "code", unique = false),
         @Index(name = "person_number_idx", columnList = "number", unique = false),
         @Index(name = "person_flat_number_idx", columnList = "flat_number", unique = false)
 })
@@ -40,19 +39,21 @@ public class Address implements Serializable {
     private String street;
 
     @NotBlank
-    @Size(max = 255)
-    @Column(name = "number", nullable = false, length = 255)
+    @Size(max = 15)
+    @Column(name = "number", nullable = false, length = 15)
     private String number;
 
-    @Size(max = 255)
-    @Column(name = "flat_number", nullable = true, length = 255)
+    @Size(max = 15)
+    @Column(name = "flat_number", nullable = true, length = 15)
     private String flatNumber;
 
     @NotBlank
+    @Size(max = 255)
     @Column(name = "code", nullable = false, length = 255)
     private String code;
 
     @NotBlank
+    @Size(max = 255)
     @Column(name = "city", nullable = false, length = 255)
     private String city;
 

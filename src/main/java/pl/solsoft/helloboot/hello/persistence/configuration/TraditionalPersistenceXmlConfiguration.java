@@ -13,12 +13,12 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAutoConfiguration
 public class TraditionalPersistenceXmlConfiguration {
-    @Bean
-    public LocalEntityManagerFactoryBean entityManagerFactory() {
-        LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
-        factoryBean.setPersistenceUnitName("default");
-        return factoryBean;
-    }
+//    @Bean
+//    public LocalEntityManagerFactoryBean entityManagerFactory() {
+//        LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
+//        factoryBean.setPersistenceUnitName("default");
+//        return factoryBean;
+//    }
 
     @Bean
     public DataSource dataSource() {
