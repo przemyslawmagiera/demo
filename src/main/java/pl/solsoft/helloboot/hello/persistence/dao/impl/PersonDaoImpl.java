@@ -19,35 +19,35 @@ import java.util.List;
 @Transactional
 public class PersonDaoImpl implements PersonDao{
 
-//    @PersistenceContext
-//    private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-//    @Override
-//    public void save(Person person) {
-//        entityManager.persist(person);
-//    }
-//
-//    @Override
-//    public void delete(Person person) {
-//        entityManager.remove(person);
-//    }
-//
-//    @Override
-//    public List<Person> findAllByGender(Sex sex) {
-//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
-//        Root<Person> root = criteria.from(Person.class);
-//        criteria.select(root).where(builder.equal(root.get(Person.FIELD_SEX), sex));
-//        return entityManager.createQuery(criteria).getResultList();
-//    }
-//
-//    @Override
-//    public Person findPersonByEmail(String email) {
-//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
-//        Root<Person> root = criteria.from(Person.class);
-//        criteria.select(root).where(builder.equal(root.get(Person.FIELD_EMAIL), email));
-//        return entityManager.createQuery(criteria).getSingleResult();
-//    }
+    @Override
+    public void save(Person person) {
+        entityManager.persist(person);
+    }
+
+    @Override
+    public void delete(Person person) {
+        entityManager.remove(person);
+    }
+
+    @Override
+    public List<Person> findAllByGender(Sex sex) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
+        Root<Person> root = criteria.from(Person.class);
+        criteria.select(root).where(builder.equal(root.get(Person.FIELD_SEX), sex));
+        return entityManager.createQuery(criteria).getResultList();
+    }
+
+    @Override
+    public Person findPersonByEmail(String email) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
+        Root<Person> root = criteria.from(Person.class);
+        criteria.select(root).where(builder.equal(root.get(Person.FIELD_EMAIL), email));
+        return entityManager.createQuery(criteria).getSingleResult();
+    }
 
 }
