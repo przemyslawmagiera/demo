@@ -79,7 +79,7 @@ public class Address implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -87,7 +87,7 @@ public class Address implements Serializable {
         return street;
     }
 
-    public void setStreet(String street) {
+    public void setStreet(final String street) {
         this.street = street;
     }
 
@@ -95,7 +95,7 @@ public class Address implements Serializable {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(final String number) {
         this.number = number;
     }
 
@@ -103,7 +103,7 @@ public class Address implements Serializable {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(final String code) {
         this.code = code;
     }
 
@@ -111,7 +111,7 @@ public class Address implements Serializable {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -119,7 +119,7 @@ public class Address implements Serializable {
         return flatNumber;
     }
 
-    public void setFlatNumber(String flatNumber) {
+    public void setFlatNumber(final String flatNumber) {
         this.flatNumber = flatNumber;
     }
 

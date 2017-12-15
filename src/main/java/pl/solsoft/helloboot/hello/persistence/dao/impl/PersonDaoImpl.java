@@ -9,6 +9,7 @@ import pl.solsoft.helloboot.hello.persistence.entity.Person;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,23 +18,23 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class PersonDaoImpl implements PersonDao{
+public class PersonDaoImpl implements PersonDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public void save(Person person) {
+    public void save(final Person person) {
         entityManager.persist(person);
     }
 
     @Override
-    public void delete(Person person) {
+    public void delete(final Person person) {
         entityManager.remove(person);
     }
 
     @Override
-    public List<Person> findAllByGender(Sex sex) {
+    public List<Person> findAllByGender(final Sex sex) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
         Root<Person> root = criteria.from(Person.class);
@@ -42,12 +43,17 @@ public class PersonDaoImpl implements PersonDao{
     }
 
     @Override
-    public Person findPersonByEmail(String email) {
+    public Person findPersonByEmail(final String email) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
         Root<Person> root = criteria.from(Person.class);
         criteria.select(root).where(builder.equal(root.get(Person.FIELD_EMAIL), email));
-        return entityManager.createQuery(criteria).getSingleResult();
+
+        try {
+            return entityManager.createQuery(criteria).getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
     }
 
 }

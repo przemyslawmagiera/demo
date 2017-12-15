@@ -11,7 +11,10 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
 
 @Entity
 @Table(name = "person", indexes = {
@@ -76,7 +79,7 @@ public class Person implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -84,7 +87,7 @@ public class Person implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -92,7 +95,7 @@ public class Person implements Serializable {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -100,7 +103,7 @@ public class Person implements Serializable {
         return eyeColor;
     }
 
-    public void setEyeColor(EyeColor eyeColor) {
+    public void setEyeColor(final EyeColor eyeColor) {
         this.eyeColor = eyeColor;
     }
 
@@ -108,7 +111,7 @@ public class Person implements Serializable {
         return sex;
     }
 
-    public void setSex(Sex sex) {
+    public void setSex(final Sex sex) {
         this.sex = sex;
     }
 
@@ -116,20 +119,20 @@ public class Person implements Serializable {
         return numberOfChildren;
     }
 
-    public void setNumberOfChildren(Integer numberOfChildren) {
+    public void setNumberOfChildren(final Integer numberOfChildren) {
         this.numberOfChildren = numberOfChildren;
     }
 
     public List<Car> getCars() {
-        return cars;
+        return unmodifiableList(cars);
     }
 
-    public void addCar(Car car) {
+    public void addCar(final Car car) {
         cars.add(car);
         car.setPerson(this);
     }
 
-    public void removeCar(Car car){
+    public void removeCar(final Car car){
         car.setPerson(null);
         cars.remove(car);
     }
@@ -138,12 +141,12 @@ public class Person implements Serializable {
         return addresses;
     }
 
-    public void addAddress(Address address){
+    public void addAddress(final Address address){
         addresses.add(address);
         address.getPeople().add(this);
     }
 
-    public void removeAddress(Address address){
+    public void removeAddress(final Address address){
         addresses.remove(address);
         address.getPeople().remove(this);
     }

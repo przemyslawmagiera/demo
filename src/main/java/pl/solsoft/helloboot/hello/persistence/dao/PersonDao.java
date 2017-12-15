@@ -8,8 +8,12 @@ import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import java.util.List;
 
 public interface PersonDao {
-    void save(Person person);
-    void delete(Person person);
-    List<Person> findAllByGender(Sex sex);
-    Person findPersonByEmail(String email);
+
+    void save(final Person person);
+
+    void delete(final Person person);
+
+    List<Person> findAllByGender(final Sex sex);
+
+    Person findPersonByEmail(final String email);
 }

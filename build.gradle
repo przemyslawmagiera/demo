@@ -34,10 +34,11 @@ dependencies {
 	compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
 	compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
 	compile "org.postgresql:postgresql:$psqlVersion"
-	compile 'org.apache.commons:commons-lang3:3.0'
+	compile 'org.apache.commons:commons-lang3:3.7'
 
-	testCompile 'org.assertj:assertj-core:1.2.0'
 	testCompile "org.springframework.boot:spring-boot-starter-test"
+	testCompile 'org.mockito:mockito-all:1.10.19'
+	testCompile 'org.assertj:assertj-core:3.8.0'
 	testCompile "com.h2database:h2:$h2Version"
 
 }

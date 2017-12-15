@@ -41,7 +41,7 @@ public class Car implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -49,7 +49,7 @@ public class Car implements Serializable {
         return plateNumber;
     }
 
-    public void setPlateNumber(String plateNumber) {
+    public void setPlateNumber(final String plateNumber) {
         this.plateNumber = plateNumber;
     }
 
@@ -57,7 +57,7 @@ public class Car implements Serializable {
         return person;
     }
 
-    public void setPerson(Person person) {
+    public void setPerson(final Person person) {
         this.person = person;
     }
 }
