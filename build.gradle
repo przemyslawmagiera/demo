@@ -6,6 +6,8 @@ buildscript {
 		springORMVersion = '4.3.13.RELEASE'
 //		springCoreVersion = '4.3.13.RELEASE'
 		psqlVersion = '9.4.1212.jre7'
+		mockitoVersion = '2.8.9'
+		h2Version = '1.4.194'
 	}
 	repositories {
 		mavenCentral()
@@ -28,12 +30,11 @@ repositories {
 }
 //ext['hibernate.version'] = '4.3.11.Final'
 dependencies {
-	compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
-//	compile "org.springframework:spring-core:$springCoreVersion"
-	compile "org.hibernate:hibernate-core:$hibernateVersion"
+	compile "org.mockito:mockito-core$mockitoVersion"
+	compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
 	compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
-	compile "org.springframework:spring-orm:$springORMVersion"
 	compile "org.postgresql:postgresql:$psqlVersion"
 
 	testCompile "org.springframework.boot:spring-boot-starter-test"
+	testCompile "com.h2database:h2:$h2Version"
 }

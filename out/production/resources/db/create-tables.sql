@@ -2,7 +2,7 @@ SET SESSION AUTHORIZATION demo;
 
 BEGIN;
 
-CREATE SEQUENCE 'hibernate_sequence';
+CREATE SEQUENCE hibernate_sequence;
 
 CREATE TABLE person
 (
@@ -34,7 +34,7 @@ CREATE TABLE car
 (
   car_id bigint PRIMARY KEY,
   plate_number varchar(255) NOT NULL UNIQUE,
-  person_id bigint REFERENCES person(person_id) ON UPDATE CASCADE ON DELETE CASCADE
+  person_id bigint REFERENCES person(person_id) ON DELETE CASCADE
 );
 
 CREATE INDEX person_number_of_children_idx ON person USING btree (number_of_children);

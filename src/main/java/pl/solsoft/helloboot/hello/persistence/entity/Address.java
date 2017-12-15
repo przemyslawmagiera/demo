@@ -17,6 +17,13 @@ import java.util.List;
         @Index(name = "person_flat_number_idx", columnList = "flat_number", unique = false)
 })
 public class Address implements Serializable {
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_STREET= "street";
+    public static final String FIELD_NUMBER = "number";
+    public static final String FIELD_FLAT_NUMBER = "flatNumber";
+    public static final String FIELD_NUMBER_OF_CHILDREN = "numberOfChildren";
+    public static final String FIELD_CODE = "code";
+    public static final String FIELD_CITY = "city";
     @Id
     @NotNull
     @Column(name = "address_id")

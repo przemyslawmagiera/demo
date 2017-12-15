@@ -9,6 +9,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "car")
 public class Car implements Serializable {
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_PLATE_NUMBER = "plateNumber";
     @Id
     @Column(name = "car_id", unique = true)
     @GenericGenerator(

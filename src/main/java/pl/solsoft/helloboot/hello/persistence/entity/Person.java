@@ -18,6 +18,11 @@ import java.util.List;
         @Index(name = "person_number_children_idx", columnList = "number_of_children", unique = false)
 })
 public class Person implements Serializable {
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_EMAIL = "email";
+    public static final String FIELD_EYE_COLOR = "eyeColor";
+    public static final String FIELD_SEX = "sex";
+    public static final String FIELD_NUMBER_OF_CHILDREN = "numberOfChildren";
     @Id
     @Column(name = "person_id", unique = true)
     @GenericGenerator(
