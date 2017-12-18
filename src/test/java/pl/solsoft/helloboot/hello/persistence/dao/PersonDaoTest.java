@@ -49,16 +49,15 @@ public class PersonDaoTest {
 
         //then
         assertThat(personDao.findPersonByEmail(person.getEmail()))
-                .extracting(Person.FIELD_EMAIL)
-                .isEqualTo("test@test.pl");
+                .isEqualTo(person);
     }
 
     @Test
     public void shouldCreateAndFindAllPeopleByGender() {
         //given
-        Person person1 = nextPerson("test");
-        Person person2 = nextPerson("test2");
-        Person person3 = nextPerson("test3");
+        Person person1 = nextPerson(Sex.F);
+        Person person2 = nextPerson(Sex.M);
+        Person person3 = nextPerson(Sex.F);
 
 
         //when
@@ -67,7 +66,7 @@ public class PersonDaoTest {
         personDao.save(person3);
 
         //then
-        assertThat(personDao.findAllByGender(Sex.F)).hasSize(3);
+        assertThat(personDao.findAllByGender(Sex.F)).hasSize(2);
     }
 
     @Test
