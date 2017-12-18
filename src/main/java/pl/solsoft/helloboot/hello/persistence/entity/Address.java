@@ -2,12 +2,15 @@ package pl.solsoft.helloboot.hello.persistence.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -70,7 +73,7 @@ public class Address implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "person_id")},
             joinColumns = {@JoinColumn(name = "address_id", referencedColumnName = "address_id")}
     )
-    private List<Person> people;
+    List<Person> people = new ArrayList<>();
 
     public Address(){
     }
@@ -124,6 +127,6 @@ public class Address implements Serializable {
     }
 
     public List<Person> getPeople() {
-        return people;
+        return Collections.unmodifiableList(people);
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "car")
@@ -59,5 +60,19 @@ public class Car implements Serializable {
 
     public void setPerson(final Person person) {
         this.person = person;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(plateNumber, car.plateNumber);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(plateNumber);
     }
 }

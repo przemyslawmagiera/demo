@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Collections.unmodifiableList;
 
@@ -143,16 +144,29 @@ public class Person implements Serializable {
 
     public void addAddress(final Address address){
         addresses.add(address);
-        address.getPeople().add(this);
+        address.people.add(this);
     }
 
     public void removeAddress(final Address address){
         addresses.remove(address);
-        address.getPeople().remove(this);
+        address.people.remove(this);
     }
 
     public void remove(){
         List<Address> toBeRemoved = new ArrayList<>(addresses);
         toBeRemoved.forEach(this::removeAddress);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(email, person.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }
