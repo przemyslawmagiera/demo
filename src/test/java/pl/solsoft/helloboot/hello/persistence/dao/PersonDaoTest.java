@@ -73,7 +73,7 @@ public class PersonDaoTest {
     public void whenNoResultsShouldReturnEmptyList() {
         //given
         List<Person> personList = new ArrayList<>();
-        IntStream.range(0,15).forEach(integer -> {
+        IntStream.range(0, 15).forEach(integer -> {
             personList.add(nextPerson(Sex.M));
         });
 

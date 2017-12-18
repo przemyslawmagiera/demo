@@ -8,10 +8,6 @@ import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -41,10 +37,9 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
 
         List<Person> personList = entityManager.createQuery(criteria).getResultList();
 
-        if(!CollectionUtils.isEmpty(personList)) {
+        if (!CollectionUtils.isEmpty(personList)) {
             return personList.get(0);
-        }
-        else {
+        } else {
             return null;
         }
     }

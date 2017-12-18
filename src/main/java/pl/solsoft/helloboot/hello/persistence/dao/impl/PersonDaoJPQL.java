@@ -5,10 +5,9 @@ import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 
-import java.util.Collections;
 import java.util.List;
 
-public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao{
+public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao {
 
     @Override
     public List<Person> findAllByGender(final Sex sex) {
@@ -27,7 +26,7 @@ public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao{
         @SuppressWarnings("unchecked")
         List<Person> personList = entityManager.createQuery(query).setParameter(Person.FIELD_EMAIL, email).getResultList();
 
-        if(!CollectionUtils.isEmpty(personList))
+        if (!CollectionUtils.isEmpty(personList))
             return personList.get(0);
         else
             return null;

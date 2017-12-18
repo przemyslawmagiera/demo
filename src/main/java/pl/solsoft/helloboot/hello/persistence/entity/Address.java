@@ -2,11 +2,9 @@ package pl.solsoft.helloboot.hello.persistence.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ import java.util.List;
 })
 public class Address implements Serializable {
     public static final String FIELD_ID = "id";
-    public static final String FIELD_STREET= "street";
+    public static final String FIELD_STREET = "street";
     public static final String FIELD_NUMBER = "number";
     public static final String FIELD_FLAT_NUMBER = "flatNumber";
     public static final String FIELD_NUMBER_OF_CHILDREN = "numberOfChildren";
@@ -75,7 +73,7 @@ public class Address implements Serializable {
     )
     List<Person> people = new ArrayList<>();
 
-    public Address(){
+    public Address() {
     }
 
     public Long getId() {

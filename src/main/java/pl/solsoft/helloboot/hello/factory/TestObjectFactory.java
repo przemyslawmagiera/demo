@@ -18,7 +18,7 @@ public class TestObjectFactory {
             person.setSex(Sex.M);
         person.setNumberOfChildren(random.nextInt(10));
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
-        if(random.nextBoolean())
+        if (random.nextBoolean())
             person.setEyeColor(EyeColor.BLUE);
         else
             person.setEyeColor(EyeColor.BROWN);
@@ -31,7 +31,7 @@ public class TestObjectFactory {
         Random random = new Random();
         person.setNumberOfChildren(random.nextInt(10));
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
-        if(random.nextBoolean())
+        if (random.nextBoolean())
             person.setEyeColor(EyeColor.BLUE);
         else
             person.setEyeColor(EyeColor.BROWN);
@@ -45,7 +45,7 @@ public class TestObjectFactory {
         Random random = new Random();
         person.setNumberOfChildren(numberOfChildren);
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
-        if(random.nextBoolean())
+        if (random.nextBoolean())
             person.setEyeColor(EyeColor.BLUE);
         else
             person.setEyeColor(EyeColor.BROWN);

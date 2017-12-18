@@ -3,15 +3,14 @@ package pl.solsoft.helloboot.hello.persistence.entity;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -133,7 +132,7 @@ public class Person implements Serializable {
         car.setPerson(this);
     }
 
-    public void removeCar(final Car car){
+    public void removeCar(final Car car) {
         car.setPerson(null);
         cars.remove(car);
     }
@@ -142,17 +141,17 @@ public class Person implements Serializable {
         return addresses;
     }
 
-    public void addAddress(final Address address){
+    public void addAddress(final Address address) {
         addresses.add(address);
         address.people.add(this);
     }
 
-    public void removeAddress(final Address address){
+    public void removeAddress(final Address address) {
         addresses.remove(address);
         address.people.remove(this);
     }
 
-    public void remove(){
+    public void remove() {
         List<Address> toBeRemoved = new ArrayList<>(addresses);
         toBeRemoved.forEach(this::removeAddress);
     }

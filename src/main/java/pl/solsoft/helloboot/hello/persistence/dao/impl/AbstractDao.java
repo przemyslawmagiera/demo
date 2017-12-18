@@ -1,12 +1,11 @@
 package pl.solsoft.helloboot.hello.persistence.dao.impl;
 
 import pl.solsoft.helloboot.hello.persistence.dao.DaoI;
-import pl.solsoft.helloboot.hello.persistence.entity.Person;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public abstract class AbstractDao<T> implements DaoI<T>{
+public abstract class AbstractDao<T> implements DaoI<T> {
 
     @PersistenceContext
     protected EntityManager entityManager;
