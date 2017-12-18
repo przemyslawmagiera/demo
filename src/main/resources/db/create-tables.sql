@@ -1,7 +1,5 @@
 SET SESSION AUTHORIZATION demo;
 
-BEGIN;
-
 CREATE SEQUENCE hibernate_sequence;
 
 CREATE TABLE person
@@ -47,5 +45,3 @@ CREATE INDEX address_person_address_id_idx ON person_address USING btree (addres
 CREATE INDEX address_person_person_id_idx ON person_address USING btree (person_id);
 
 CREATE INDEX car_person_id_idx ON car USING btree (person_id);
-
-COMMIT;

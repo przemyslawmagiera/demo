@@ -1,20 +1,24 @@
+apply plugin: 'liquibase'
 buildscript {
-	ext {
-		springBootVersion = '1.5.8.RELEASE'
-		hibernateVersion = '5.2.2.Final'
-		hibernateValidatorVersion = '5.3.6.Final'
-		springORMVersion = '4.3.13.RELEASE'
+    ext {
+        springBootVersion = '1.5.8.RELEASE'
+        hibernateVersion = '5.2.2.Final'
+        hibernateValidatorVersion = '5.3.6.Final'
+        springORMVersion = '4.3.13.RELEASE'
 //		springCoreVersion = '4.3.13.RELEASE'
-		psqlVersion = '9.4.1212.jre7'
-		mockitoVersion = '2.8.9'
-		h2Version = '1.4.194'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+        psqlVersion = '9.4.1212.jre7'
+        mockitoVersion = '2.8.9'
+        h2Version = '1.4.194'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("org.liquibase:liquibase-core:3.4.1")
+        classpath("org.liquibase:liquibase-gradle-plugin:1.1.1")
+        classpath("org.postgresql:postgresql:$psqlVersion")
+    }
 }
 
 apply plugin: 'java'
@@ -25,20 +29,35 @@ group = 'pl.solsoft.helloboot'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+def changeLog = "$projectDir/src/main/db/changelog.xml"
+
+task('demo') << {
+    println "executing demo"
+    liquibase {
+        activities {
+            main {
+                changeLogFile changeLog
+                url 'jdbc:postgresql://localhost:5432/demo'
+                username 'demo'
+                password 'demo'
+            }
+        }
+    }
+}
+
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 //ext['hibernate.version'] = '4.3.11.Final'
 dependencies {
-	compile "org.mockito:mockito-core$mockitoVersion"
-	compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
-	compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
-	compile "org.postgresql:postgresql:$psqlVersion"
-	compile 'org.apache.commons:commons-lang3:3.7'
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
+    compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
+    compile "org.postgresql:postgresql:$psqlVersion"
+    compile 'org.apache.commons:commons-lang3:3.7'
 
-	testCompile "org.springframework.boot:spring-boot-starter-test"
-	testCompile 'org.mockito:mockito-all:1.10.19'
-	testCompile 'org.assertj:assertj-core:3.8.0'
-	testCompile "com.h2database:h2:$h2Version"
+    testCompile "org.springframework.boot:spring-boot-starter-test"
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile "com.h2database:h2:$h2Version"
 
 }

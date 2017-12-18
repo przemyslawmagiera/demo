@@ -1,11 +1,6 @@
 --liquibase formatted sql
 
---changeset
-SET SESSION AUTHORIZATION demo;
-
-BEGIN;
-
-CREATE SEQUENCE hibernate_sequence;
+--changeset przemek-magiera:2
 
 CREATE TABLE person
 (
@@ -40,15 +35,4 @@ CREATE TABLE car
   person_id bigint REFERENCES person(person_id) ON DELETE CASCADE
 );
 
-CREATE INDEX person_number_of_children_idx ON person USING btree (number_of_children);
-
-CREATE INDEX address_code_idx ON address USING btree (code);
-CREATE INDEX address_number_idx ON address USING btree (number);
-CREATE INDEX address_flat_number_idx ON address USING BTREE (flat_number);
-
-CREATE INDEX address_person_address_id_idx ON person_address USING btree (address_id);
-CREATE INDEX address_person_person_id_idx ON person_address USING btree (person_id);
-
-CREATE INDEX car_person_id_idx ON car USING btree (person_id);
-
-COMMIT;
+--rollback drop table person_address, address, car, person;
