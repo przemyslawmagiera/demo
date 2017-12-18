@@ -51,13 +51,12 @@ public class PersonServiceTest {
     }
 
     @Test
-    public void whenNoPeopleResultShouldBeZero()
+    public void whenNoPeopleAtSexResultShouldBeZero()
     {
         //given
-        List<Person> personList = new ArrayList<>();
 
         //when
-        when(personDao.findAllByGender(Sex.F)).thenReturn(personList);
+        when(personDao.findAllByGender(Sex.F)).thenReturn(new ArrayList<>());
 
         //then
         assertThat(personService.countChildrenBySex(Sex.F)).isEqualTo(0);

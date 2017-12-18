@@ -7,11 +7,7 @@ import pl.solsoft.helloboot.hello.persistence.entity.Person;
 
 import java.util.List;
 
-public interface PersonDao {
-
-    void save(final Person person);
-
-    void delete(final Person person);
+public interface PersonDao extends DaoI<Person> {
 
     List<Person> findAllByGender(final Sex sex);
 

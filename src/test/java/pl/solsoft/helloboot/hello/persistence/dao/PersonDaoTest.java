@@ -63,9 +63,11 @@ public class PersonDaoTest {
 
         //when
         personDao.save(person1);
+        personDao.save(person2);
+        personDao.save(person3);
 
         //then
-        assertThat(personDao.findAllByGender(Sex.F)).hasSize(15);
+        assertThat(personDao.findAllByGender(Sex.F)).hasSize(3);
     }
 
     @Test

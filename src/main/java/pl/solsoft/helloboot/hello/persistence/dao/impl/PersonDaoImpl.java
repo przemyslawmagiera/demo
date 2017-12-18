@@ -3,6 +3,7 @@ package pl.solsoft.helloboot.hello.persistence.dao.impl;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
@@ -18,21 +19,10 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class PersonDaoImpl implements PersonDao {
+public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public void save(final Person person) {
-        entityManager.persist(person);
-    }
-
-    @Override
-    public void delete(final Person person) {
-        entityManager.remove(person);
-    }
-
+    //Criteria query używamy kiedy mamy zapytania dynamiczne, mocno parametryzowane, kiedy potrzebujemy jakiegoś
+    //ifa, czy ionnych programistycznych rzeczy. JPQL używamy do większości prostych kwerend
     @Override
     public List<Person> findAllByGender(final Sex sex) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
@@ -49,9 +39,12 @@ public class PersonDaoImpl implements PersonDao {
         Root<Person> root = criteria.from(Person.class);
         criteria.select(root).where(builder.equal(root.get(Person.FIELD_EMAIL), email));
 
-        try {
-            return entityManager.createQuery(criteria).getSingleResult();
-        } catch (NoResultException nre) {
+        List<Person> personList = entityManager.createQuery(criteria).getResultList();
+
+        if(!CollectionUtils.isEmpty(personList)) {
+            return personList.get(0);
+        }
+        else {
             return null;
         }
     }
