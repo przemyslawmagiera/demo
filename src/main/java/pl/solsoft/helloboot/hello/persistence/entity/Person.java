@@ -7,6 +7,7 @@ import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -63,6 +64,7 @@ public class Person implements Serializable {
     private Sex sex;
 
     @NotNull
+    @Min(0)
     @Column(name = "number_of_children", nullable = false)
     private int numberOfChildren = 0;
 

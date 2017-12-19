@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset przemek-magiera:1
+--changeset przemekmagiera:1
 
 CREATE SEQUENCE hibernate_sequence;
 

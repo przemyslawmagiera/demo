@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset przemek-magiera:2
+--changeset przemekmagiera:2
 
 CREATE TABLE person
 (

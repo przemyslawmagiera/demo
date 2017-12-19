@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset przemek-magiera:3
+--changeset przemekmagiera:3
 
 CREATE INDEX person_number_of_children_idx ON person USING btree (number_of_children);
 
