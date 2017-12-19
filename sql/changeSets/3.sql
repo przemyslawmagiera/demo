@@ -8,8 +8,8 @@ CREATE INDEX address_code_idx ON address USING btree (code);
 CREATE INDEX address_number_idx ON address USING btree (number);
 CREATE INDEX address_flat_number_idx ON address USING BTREE (flat_number);
 
-CREATE INDEX address_person_address_id_idx ON person_address USING btree (address_id);
-CREATE INDEX address_person_person_id_idx ON person_address USING btree (person_id);
+CREATE INDEX address_person_address_id_idx ON address_person USING btree (address_id);
+CREATE INDEX address_person_person_id_idx ON address_person USING btree (person_id);
 
 CREATE INDEX car_person_id_idx ON car USING btree (person_id);
 

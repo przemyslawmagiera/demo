@@ -22,7 +22,7 @@ CREATE TABLE address
   city varchar(255) NOT NULL
 );
 
-CREATE TABLE person_address
+CREATE TABLE address_person
 (
   person_id bigint NOT NULL REFERENCES person (person_id) ON DELETE CASCADE,
   address_id bigint NOT NULL REFERENCES address (address_id) ON DELETE CASCADE

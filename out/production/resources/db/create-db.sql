@@ -1,4 +1,4 @@
-CREATE USER demo;
+CREATE USER demo;person_address
 ALTER USER demo with ENCRYPTED password demo;
 
 DROP DATABASE IF EXISTS demo;

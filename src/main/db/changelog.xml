@@ -13,9 +13,6 @@
 
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <!--<include file="sql/changeSets/1.sql" />-->
-    <!--<include file="sql/changeSets/2.sql" />-->
-    <!--<include file="sql/changeSets/3.sql" />-->
     <includeAll path="sql/changeSets/" />
 
 </databaseChangeLog>
