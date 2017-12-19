@@ -4,6 +4,7 @@ import org.springframework.util.CollectionUtils;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
+import pl.solsoft.helloboot.hello.persistence.entity.Person_;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao {
         String query = "SELECT p FROM Person p WHERE p.sex = :sex";
 
         @SuppressWarnings("unchecked")
-        List<Person> personList = entityManager.createQuery(query).setParameter(Person.FIELD_SEX, sex).getResultList();
+        List<Person> personList = entityManager.createQuery(query).setParameter(Person_.sex.getName(), sex).getResultList();
 
         return personList;
     }
@@ -24,7 +25,7 @@ public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao {
         String query = "SELECT p FROM Person p WHERE p.email = :email";
 
         @SuppressWarnings("unchecked")
-        List<Person> personList = entityManager.createQuery(query).setParameter(Person.FIELD_EMAIL, email).getResultList();
+        List<Person> personList = entityManager.createQuery(query).setParameter(Person_.email.getName(), email).getResultList();
 
         if (!CollectionUtils.isEmpty(personList))
             return personList.get(0);

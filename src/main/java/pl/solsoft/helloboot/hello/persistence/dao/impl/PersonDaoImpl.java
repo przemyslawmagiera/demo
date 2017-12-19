@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
+import pl.solsoft.helloboot.hello.persistence.entity.Person_;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -24,7 +25,7 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
         Root<Person> root = criteria.from(Person.class);
-        criteria.select(root).where(builder.equal(root.get(Person.FIELD_SEX), sex));
+        criteria.select(root).where(builder.equal(root.get(Person_.sex), sex));
         return entityManager.createQuery(criteria).getResultList();
     }
 
@@ -33,7 +34,7 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
         Root<Person> root = criteria.from(Person.class);
-        criteria.select(root).where(builder.equal(root.get(Person.FIELD_EMAIL), email));
+        criteria.select(root).where(builder.equal(root.get(Person_.email), email));
 
         List<Person> personList = entityManager.createQuery(criteria).getResultList();
 

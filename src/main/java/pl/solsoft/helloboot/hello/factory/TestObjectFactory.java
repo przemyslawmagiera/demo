@@ -8,7 +8,6 @@ import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import java.util.Random;
 
 public class TestObjectFactory {
-
     public static Person nextPerson(final String email) {
         Person person = new Person();
         Random random = new Random();
