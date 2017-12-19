@@ -1,5 +1,9 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -17,14 +21,10 @@ import java.util.List;
         @Index(name = "person_number_idx", columnList = "number", unique = false),
         @Index(name = "person_flat_number_idx", columnList = "flat_number", unique = false)
 })
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = "id")
 public class Address implements Serializable {
-    public static final String FIELD_ID = "id";
-    public static final String FIELD_STREET = "street";
-    public static final String FIELD_NUMBER = "number";
-    public static final String FIELD_FLAT_NUMBER = "flatNumber";
-    public static final String FIELD_NUMBER_OF_CHILDREN = "numberOfChildren";
-    public static final String FIELD_CODE = "code";
-    public static final String FIELD_CITY = "city";
+
     @Id
     @NotNull
     @Column(name = "address_id")
@@ -39,30 +39,42 @@ public class Address implements Serializable {
 
             })
     @GeneratedValue(generator = "address_id_seq")
+    @Getter
+    @Setter
     private Long id;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "street", nullable = false, length = 255)
+    @Getter
+    @Setter
     private String street;
 
     @NotBlank
     @Size(max = 15)
     @Column(name = "number", nullable = false, length = 15)
+    @Getter
+    @Setter
     private String number;
 
     @Size(max = 15)
     @Column(name = "flat_number", nullable = true, length = 15)
+    @Getter
+    @Setter
     private String flatNumber;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "code", nullable = false, length = 255)
+    @Getter
+    @Setter
     private String code;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "city", nullable = false, length = 255)
+    @Getter
+    @Setter
     private String city;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -72,57 +84,6 @@ public class Address implements Serializable {
             joinColumns = {@JoinColumn(name = "address_id", referencedColumnName = "address_id")}
     )
     List<Person> people = new ArrayList<>();
-
-    public Address() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(final String street) {
-        this.street = street;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(final String number) {
-        this.number = number;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(final String code) {
-        this.code = code;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(final String city) {
-        this.city = city;
-    }
-
-    public String getFlatNumber() {
-        return flatNumber;
-    }
-
-    public void setFlatNumber(final String flatNumber) {
-        this.flatNumber = flatNumber;
-    }
 
     public List<Person> getPeople() {
         return Collections.unmodifiableList(people);

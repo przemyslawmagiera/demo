@@ -1,5 +1,9 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -9,9 +13,10 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "car")
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"id", "person"})
 public class Car implements Serializable {
-    public static final String FIELD_ID = "id";
-    public static final String FIELD_PLATE_NUMBER = "plateNumber";
+
     @Id
     @Column(name = "car_id", unique = true)
     @GenericGenerator(
@@ -25,54 +30,19 @@ public class Car implements Serializable {
 
             })
     @GeneratedValue(generator = "car_id_seq")
+    @Getter
+    @Setter
     private Long id;
 
     @NotBlank
     @Column(name = "plate_number", nullable = false, length = 255, unique = true)
+    @Getter
+    @Setter
     private String plateNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
+    @Getter
+    @Setter
     private Person person;
-
-    public Car() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getPlateNumber() {
-        return plateNumber;
-    }
-
-    public void setPlateNumber(final String plateNumber) {
-        this.plateNumber = plateNumber;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(final Person person) {
-        this.person = person;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(plateNumber, car.plateNumber);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(plateNumber);
-    }
 }

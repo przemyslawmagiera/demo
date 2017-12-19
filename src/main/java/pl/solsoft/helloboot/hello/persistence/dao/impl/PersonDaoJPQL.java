@@ -1,5 +1,6 @@
 package pl.solsoft.helloboot.hello.persistence.dao.impl;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.util.CollectionUtils;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;

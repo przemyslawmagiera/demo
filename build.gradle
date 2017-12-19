@@ -21,11 +21,11 @@ buildscript {
         classpath("org.liquibase:liquibase-gradle-plugin:1.1.1")
         classpath("org.postgresql:postgresql:$psqlVersion")
         classpath('gradle.plugin.at.comm_unity.gradle.plugins:jpamodelgen-plugin:1.1.1')
-        classpath "net.ltgt.gradle:gradle-apt-plugin:0.13"
     }
 }
 plugins {
     id 'org.liquibase.gradle' version '1.2.4'
+    id 'net.ltgt.apt' version '0.10'
 }
 
 
@@ -52,6 +52,19 @@ liquibase {
     }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
 
 
 repositories {
@@ -65,7 +78,10 @@ dependencies {
     compile "org.postgresql:postgresql:$psqlVersion"
     compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
     compile "org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion"
+    compile 'org.projectlombok:lombok:1.16.18'
+
     apt("org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion")
+    apt("org.projectlombok:lombok:1.16.18")
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile 'org.mockito:mockito-all:1.10.19'
