@@ -1,5 +1,0 @@
-CREATE USER demo;person_address
-ALTER USER demo with ENCRYPTED password demo;
-
-DROP DATABASE IF EXISTS demo;
-CREATE DATABASE demo WITH ENCODING 'UTF8' OWNER demo;
