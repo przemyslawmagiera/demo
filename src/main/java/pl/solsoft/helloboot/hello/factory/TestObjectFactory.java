@@ -11,16 +11,18 @@ public class TestObjectFactory {
     public static Person nextPerson(final String email) {
         Person person = new Person();
         Random random = new Random();
-        if (random.nextBoolean())
+        if (random.nextBoolean()) {
             person.setSex(Sex.F);
-        else
+        } else {
             person.setSex(Sex.M);
+        }
         person.setNumberOfChildren(random.nextInt(10));
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
-        if (random.nextBoolean())
+        if (random.nextBoolean()) {
             person.setEyeColor(EyeColor.BLUE);
-        else
+        } else {
             person.setEyeColor(EyeColor.BROWN);
+        }
         person.setEmail(email);
         return person;
     }
@@ -30,10 +32,11 @@ public class TestObjectFactory {
         Random random = new Random();
         person.setNumberOfChildren(random.nextInt(10));
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
-        if (random.nextBoolean())
+        if (random.nextBoolean()) {
             person.setEyeColor(EyeColor.BLUE);
-        else
+        } else {
             person.setEyeColor(EyeColor.BROWN);
+        }
         person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@.test.pl");
         person.setSex(sex);
         return person;
@@ -44,10 +47,11 @@ public class TestObjectFactory {
         Random random = new Random();
         person.setNumberOfChildren(numberOfChildren);
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
-        if (random.nextBoolean())
+        if (random.nextBoolean()) {
             person.setEyeColor(EyeColor.BLUE);
-        else
+        }else {
             person.setEyeColor(EyeColor.BROWN);
+        }
         person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@.test.pl");
         person.setSex(sex);
         return person;

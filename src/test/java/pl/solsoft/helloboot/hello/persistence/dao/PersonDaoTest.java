@@ -30,12 +30,12 @@ public class PersonDaoTest {
     public void shouldCreateAndNotFindPersonByEmail() {
         //given
         Person person = nextPerson("test1@test.pl");
-
-        //when
         personDao.save(person);
 
+        //when
+        Person p = personDao.findPersonByEmail("test@test.pl");
         //then
-        assertThat(personDao.findPersonByEmail("test@test.pl"))
+        assertThat(p)
                 .isNull();
     }
 
@@ -43,12 +43,12 @@ public class PersonDaoTest {
     public void shouldCreateAndFindPersonByEmail() {
         //given
         Person person = nextPerson("test@test.pl");
-
-        //when
         personDao.save(person);
 
+        //when
+        Person p = personDao.findPersonByEmail(person.getEmail());
         //then
-        assertThat(personDao.findPersonByEmail(person.getEmail()))
+        assertThat(p)
                 .isEqualTo(person);
     }
 
@@ -58,15 +58,15 @@ public class PersonDaoTest {
         Person person1 = nextPerson(Sex.F);
         Person person2 = nextPerson(Sex.M);
         Person person3 = nextPerson(Sex.F);
-
-
-        //when
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
 
+        //when
+        List<Person> personList = personDao.findAllByGender(Sex.F);
+
         //then
-        assertThat(personDao.findAllByGender(Sex.F)).hasSize(2);
+        assertThat(personList).hasSize(2);
     }
 
     @Test
@@ -76,12 +76,13 @@ public class PersonDaoTest {
         IntStream.range(0, 15).forEach(integer -> {
             personList.add(nextPerson(Sex.M));
         });
-
-        //when
         personList.forEach(person -> personDao.save(person));
 
+        //when
+        List<Person> personListResult = personDao.findAllByGender(Sex.F);
+
         //then
-        assertThat(personDao.findAllByGender(Sex.F)).isEmpty();
+        assertThat(personListResult).isEmpty();
     }
 
 

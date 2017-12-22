@@ -27,6 +27,7 @@ import static java.util.Collections.unmodifiableList;
 })
 @NoArgsConstructor
 @EqualsAndHashCode(of = "email")
+@Getter()
 public class Person implements Serializable {
     @Id
     @Column(name = "person_id", unique = true)

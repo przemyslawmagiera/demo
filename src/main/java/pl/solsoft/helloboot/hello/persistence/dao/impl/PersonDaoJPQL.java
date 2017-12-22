@@ -1,12 +1,15 @@
 package pl.solsoft.helloboot.hello.persistence.dao.impl;
 
 import jdk.nashorn.internal.objects.annotations.Getter;
+import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import pl.solsoft.helloboot.hello.persistence.entity.Person_;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao {
@@ -25,12 +28,10 @@ public class PersonDaoJPQL extends AbstractDao<Person> implements PersonDao {
     public Person findPersonByEmail(final String email) {
         String query = "SELECT p FROM Person p WHERE p.email = :email";
 
-        @SuppressWarnings("unchecked")
-        List<Person> personList = entityManager.createQuery(query).setParameter(Person_.email.getName(), email).getResultList();
-
-        if (!CollectionUtils.isEmpty(personList))
-            return personList.get(0);
-        else
+        try {
+            return (Person) entityManager.createQuery(query).setParameter(Person_.email.getName(), email).getSingleResult();
+        } catch (NoResultException nre) {
             return null;
+        }
     }
 }

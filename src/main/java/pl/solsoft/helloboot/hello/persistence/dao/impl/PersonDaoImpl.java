@@ -9,6 +9,7 @@ import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import pl.solsoft.helloboot.hello.persistence.entity.Person_;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -36,11 +37,10 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
         Root<Person> root = criteria.from(Person.class);
         criteria.select(root).where(builder.equal(root.get(Person_.email), email));
 
-        List<Person> personList = entityManager.createQuery(criteria).getResultList();
+        try {
+            return entityManager.createQuery(criteria).getSingleResult();
 
-        if (!CollectionUtils.isEmpty(personList)) {
-            return personList.get(0);
-        } else {
+        } catch (NoResultException nre) {
             return null;
         }
     }

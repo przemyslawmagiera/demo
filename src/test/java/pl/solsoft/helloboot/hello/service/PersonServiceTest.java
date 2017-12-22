@@ -37,9 +37,10 @@ public class PersonServiceTest {
 
         //when
         when(personDao.findAllByGender(Sex.F)).thenReturn(personList);
+        int result = personService.countChildrenBySex(Sex.F);
 
         //then
-        assertThat(personService.countChildrenBySex(Sex.F)).isEqualTo(75);
+        assertThat(result).isEqualTo(75);
     }
 
     @Test
@@ -48,9 +49,10 @@ public class PersonServiceTest {
 
         //when
         when(personDao.findAllByGender(Sex.F)).thenReturn(new ArrayList<>());
+        int result = personService.countChildrenBySex(Sex.F);
 
         //then
-        assertThat(personService.countChildrenBySex(Sex.F)).isEqualTo(0);
+        assertThat(result).isEqualTo(0);
     }
 
 
