@@ -26,7 +26,7 @@ import static java.util.Collections.unmodifiableList;
         @Index(name = "person_number_children_idx", columnList = "number_of_children", unique = false)
 })
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id", "name", "eyeColor", "sex", "numberOfChildren","cars", "addresses"})
+@EqualsAndHashCode(of = "email")
 public class Person implements Serializable {
     @Id
     @Column(name = "person_id", unique = true)
