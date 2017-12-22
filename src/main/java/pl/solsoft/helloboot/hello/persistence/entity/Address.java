@@ -1,9 +1,6 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -23,6 +20,8 @@ import java.util.List;
 })
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = "id")
+@Getter
+@Setter
 public class Address implements Serializable {
 
     @Id
@@ -39,42 +38,30 @@ public class Address implements Serializable {
 
             })
     @GeneratedValue(generator = "address_id_seq")
-    @Getter
-    @Setter
     private Long id;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "street", nullable = false, length = 255)
-    @Getter
-    @Setter
     private String street;
 
     @NotBlank
     @Size(max = 15)
     @Column(name = "number", nullable = false, length = 15)
-    @Getter
-    @Setter
     private String number;
 
     @Size(max = 15)
     @Column(name = "flat_number", nullable = true, length = 15)
-    @Getter
-    @Setter
     private String flatNumber;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "code", nullable = false, length = 255)
-    @Getter
-    @Setter
     private String code;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "city", nullable = false, length = 255)
-    @Getter
-    @Setter
     private String city;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
@@ -83,6 +70,7 @@ public class Address implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "person_id")},
             joinColumns = {@JoinColumn(name = "address_id", referencedColumnName = "address_id")}
     )
+    @Setter(AccessLevel.NONE)
     List<Person> people = new ArrayList<>();
 
     public List<Person> getPeople() {

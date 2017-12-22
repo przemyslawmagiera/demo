@@ -1,9 +1,6 @@
 package pl.solsoft.helloboot.hello.persistence.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -27,7 +24,8 @@ import static java.util.Collections.unmodifiableList;
 })
 @NoArgsConstructor
 @EqualsAndHashCode(of = "email")
-@Getter()
+@Getter
+@Setter
 public class Person implements Serializable {
     @Id
     @Column(name = "person_id", unique = true)
@@ -42,50 +40,40 @@ public class Person implements Serializable {
 
             })
     @GeneratedValue(generator = "person_id_seq")
-    @Getter
-    @Setter
     private Long id;
 
     @NotBlank
     @Size(max = 255)
     @Column(name = "name", nullable = false, length = 255)
-    @Getter
-    @Setter
     private String name;
 
     @NotBlank
     @Email
     @Size(max = 254)
     @Column(name = "email", nullable = false, length = 255, unique = true)
-    @Getter
-    @Setter
     private String email;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "eye_color", nullable = false, length = 5)
-    @Getter
-    @Setter
     private EyeColor eyeColor;
 
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "sex", nullable = false, length = 1)
-    @Getter
-    @Setter
     private Sex sex;
 
     @NotNull
     @Min(0)
     @Column(name = "number_of_children", nullable = false)
-    @Getter
-    @Setter
     private int numberOfChildren = 0;
 
     @OneToMany(targetEntity = Car.class, mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @Setter(AccessLevel.NONE)
     private List<Car> cars = new ArrayList<>();
 
     @ManyToMany(mappedBy = "people", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
     private List<Address> addresses = new ArrayList<>();
 
     public List<Car> getCars() {

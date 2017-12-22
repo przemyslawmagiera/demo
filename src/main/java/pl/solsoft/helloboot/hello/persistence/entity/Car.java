@@ -15,6 +15,8 @@ import java.util.Objects;
 @Table(name = "car")
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id", "person"})
+@Getter
+@Setter
 public class Car implements Serializable {
 
     @Id
@@ -30,19 +32,13 @@ public class Car implements Serializable {
 
             })
     @GeneratedValue(generator = "car_id_seq")
-    @Getter
-    @Setter
     private Long id;
 
     @NotBlank
     @Column(name = "plate_number", nullable = false, length = 255, unique = true)
-    @Getter
-    @Setter
     private String plateNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
-    @Getter
-    @Setter
     private Person person;
 }
