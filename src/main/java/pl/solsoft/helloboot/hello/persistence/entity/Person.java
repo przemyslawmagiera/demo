@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static java.util.Collections.unmodifiableList;
@@ -107,5 +108,15 @@ public class Person implements Serializable {
     public void remove() {
         List<Address> toBeRemoved = new ArrayList<>(addresses);
         toBeRemoved.forEach(this::removeAddress);
+    }
+
+    public static Person createFromRequestParams(Map<String,String> requestParams) throws NumberFormatException {
+        Person person = new Person();
+        person.setName(requestParams.get(pl.solsoft.helloboot.hello.persistence.entity.Person_.name.getName()));
+        person.setEyeColor(EyeColor.valueOf(requestParams.get(pl.solsoft.helloboot.hello.persistence.entity.Person_.eyeColor.getName())));
+        person.setSex(Sex.valueOf(requestParams.get(pl.solsoft.helloboot.hello.persistence.entity.Person_.sex.getName())));
+        person.setEmail(requestParams.get(pl.solsoft.helloboot.hello.persistence.entity.Person_.email.getName()));
+        person.setNumberOfChildren(Integer.parseInt(requestParams.get(pl.solsoft.helloboot.hello.persistence.entity.Person_.numberOfChildren.getName())));
+        return person;
     }
 }

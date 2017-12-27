@@ -8,6 +8,8 @@ buildscript {
         apacheCommonsVersion = '3.7'
         jpaMetamodelVersion = '5.2.12.Final'
         liquibaseVersion = '3.4.1'
+        assertJVersion = '3.8.0'
+        lombokVersion = '1.16.18'
     }
     repositories {
         mavenCentral()
@@ -79,13 +81,14 @@ dependencies {
     compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
     compile "org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion"
     compile 'org.projectlombok:lombok:1.16.18'
+    compile('org.springframework.boot:spring-boot-starter-web')
 
     apt("org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion")
-    apt("org.projectlombok:lombok:1.16.18")
+    apt("org.projectlombok:lombok:$lombokVersion")
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
-    testCompile 'org.mockito:mockito-all:1.10.19'
-    testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile "org.mockito:mockito-all:$mockitoVersion"
+    testCompile "org.assertj:assertj-core:$assertJVersion"
     testCompile "com.h2database:h2:$h2Version"
 
 }
