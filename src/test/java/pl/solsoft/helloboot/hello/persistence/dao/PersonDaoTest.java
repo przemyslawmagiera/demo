@@ -6,11 +6,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
+import pl.solsoft.helloboot.hello.persistence.dao.impl.PersonDaoImpl;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
+import pl.solsoft.helloboot.hello.persistence.repository.PersonRepository;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -84,6 +90,62 @@ public class PersonDaoTest {
         //then
         assertThat(personListResult).isEmpty();
     }
+
+    @Test
+    public void shouldFilterBySexAndEyeColor() {
+        //given
+        Person person1 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        Person person2 = nextPerson(Sex.M,0, EyeColor.BLUE);
+        Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        personDao.save(person1);
+        personDao.save(person2);
+        personDao.save(person3);
+        List<Person> expected = Arrays.asList(person1,person3);
+
+        //when
+        List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(Sex.F, EyeColor.BLUE, null);
+
+        assertThat(personListResult)
+                .hasSameElementsAs(expected);
+    }
+
+    @Test
+    public void shouldFilterByNumberOfChildrenEyeColorAndSex() {
+        //given
+        Person person1 = nextPerson(Sex.F,2, EyeColor.BLUE);
+        Person person2 = nextPerson(Sex.M,2, EyeColor.BLUE);
+        Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        personDao.save(person1);
+        personDao.save(person2);
+        personDao.save(person3);
+        List<Person> expected = Collections.singletonList(person1);
+
+        //when
+        List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(Sex.F, EyeColor.BLUE, 2);
+
+        assertThat(personListResult)
+                .hasSameElementsAs(expected);
+    }
+
+    @Test
+    public void shouldFilterByNothing() {
+        //given
+        Person person1 = nextPerson(Sex.F,2, EyeColor.BLUE);
+        Person person2 = nextPerson(Sex.M,2, EyeColor.BLUE);
+        Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        personDao.save(person1);
+        personDao.save(person2);
+        personDao.save(person3);
+        List<Person> expected = Arrays.asList(person1, person2, person3);
+
+        //when
+        List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(null, null, null);
+
+        assertThat(personListResult)
+                .hasSameElementsAs(expected);
+    }
+
+
 
 
 }

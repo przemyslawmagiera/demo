@@ -56,4 +56,15 @@ public class TestObjectFactory {
         person.setSex(sex);
         return person;
     }
+
+    public static Person nextPerson(final Sex sex, final int numberOfChildren, final EyeColor eyeColor) {
+        Person person = new Person();
+        Random random = new Random();
+        person.setNumberOfChildren(numberOfChildren);
+        person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
+        person.setEyeColor(eyeColor);
+        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@.test.pl");
+        person.setSex(sex);
+        return person;
+    }
 }
