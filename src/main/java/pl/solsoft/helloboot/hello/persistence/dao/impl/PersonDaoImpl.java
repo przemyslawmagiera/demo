@@ -26,18 +26,18 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
     //ifa, czy ionnych programistycznych rzeczy. JPQL używamy do większości prostych kwerend
     @Override
     public List<Person> findAllByGender(final Sex sex) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
-        Root<Person> root = criteria.from(Person.class);
+        final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
+        final Root<Person> root = criteria.from(Person.class);
         criteria.select(root).where(builder.equal(root.get(Person_.sex), sex));
         return entityManager.createQuery(criteria).getResultList();
     }
 
     @Override
     public Person findPersonByEmail(final String email) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
-        Root<Person> root = criteria.from(Person.class);
+        final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
+        final Root<Person> root = criteria.from(Person.class);
         criteria.select(root).where(builder.equal(root.get(Person_.email), email));
 
         try {
@@ -50,9 +50,9 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
 
 
     public List<Person> findFiltered (final Sex sex, final EyeColor eyeColor, final Integer numberOfChildren) {
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
-        Root<Person> root = criteria.from(Person.class);
+        final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
+        final Root<Person> root = criteria.from(Person.class);
         List<Predicate> predicates = new ArrayList<>();
 
         Optional<Sex> optionalSex = Optional.ofNullable(sex);

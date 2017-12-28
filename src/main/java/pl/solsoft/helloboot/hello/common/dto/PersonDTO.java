@@ -1,4 +1,4 @@
-package pl.solsoft.helloboot.hello.common.to;
+package pl.solsoft.helloboot.hello.common.dto;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,15 +7,14 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
+import pl.solsoft.helloboot.hello.validator.UniqueEmail;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = "id")
-public class PersonTo {
-
-    private Long id;
+@EqualsAndHashCode
+public class PersonDTO {
 
     @NotBlank
     private String firstName;

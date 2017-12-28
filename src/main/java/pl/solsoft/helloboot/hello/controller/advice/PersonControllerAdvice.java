@@ -5,7 +5,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pl.solsoft.helloboot.hello.common.to.ValidationMessageTo;
+import pl.solsoft.helloboot.hello.common.dto.ValidationMessageDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +14,10 @@ import java.util.List;
 public class PersonControllerAdvice {
     @ExceptionHandler({ MethodArgumentNotValidException.class })
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ValidationMessageTo validationException(MethodArgumentNotValidException ex) {
-        ValidationMessageTo message = new ValidationMessageTo();
+    public ValidationMessageDTO validationException(MethodArgumentNotValidException ex) {
         List<String> errorMessages = new ArrayList<>();
         ex.getBindingResult().getAllErrors()
                 .forEach(error -> errorMessages.add(error.getCode() + " - " + error.getDefaultMessage()));
-        message.setMessages(errorMessages);
-        return message;
+        return new ValidationMessageDTO(errorMessages);
     }
 }

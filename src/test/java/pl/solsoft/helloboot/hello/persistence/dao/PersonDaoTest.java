@@ -2,6 +2,7 @@ package pl.solsoft.helloboot.hello.persistence.dao;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -25,7 +26,7 @@ import static pl.solsoft.helloboot.hello.factory.TestObjectFactory.nextPerson;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@TestPropertySource(locations = "classpath:application-test.properties")
+@AutoConfigureTestDatabase
 @Transactional
 public class PersonDaoTest {
 
@@ -33,7 +34,7 @@ public class PersonDaoTest {
     private PersonDao personDao;
 
     @Test
-    public void shouldCreateAndNotFindPersonByEmail() {
+    public void shouldReturnNullWhenNoSingleResult() {
         //given
         final Person person = nextPerson("test1@test.pl");
         personDao.save(person);
@@ -46,7 +47,20 @@ public class PersonDaoTest {
     }
 
     @Test
-    public void shouldCreateAndFindPersonByEmail() {
+    public void shouldThrowAnExceptionWhenEmailIsDuplicated() {
+        //given
+        final Person person1 = nextPerson("test1@test.pl");
+        final Person person2 = nextPerson("test1@test.pl");
+
+        //when
+        personDao.save(person1);
+        personDao.save(person2);
+
+        //then
+    }
+
+    @Test
+    public void shouldFindPersonByEmail() {
         //given
         final Person person = nextPerson("test@test.pl");
         personDao.save(person);
@@ -59,7 +73,7 @@ public class PersonDaoTest {
     }
 
     @Test
-    public void shouldCreateAndFindAllPeopleByGender() {
+    public void shouldFindAllPeopleByGender() {
         //given
         final Person person1 = nextPerson(Sex.F);
         final Person person2 = nextPerson(Sex.M);
@@ -69,23 +83,23 @@ public class PersonDaoTest {
         personDao.save(person3);
 
         //when
-        List<Person> personList = personDao.findAllByGender(Sex.F);
+        final List<Person> personList = personDao.findAllByGender(Sex.F);
 
         //then
         assertThat(personList).hasSize(2);
     }
 
     @Test
-    public void whenNoResultsShouldReturnEmptyList() {
+    public void shouldReturnEmptyListWhenNoResults() {
         //given
-        List<Person> personList = new ArrayList<>();
+        final List<Person> personList = new ArrayList<>();
         IntStream.range(0, 15).forEach(integer -> {
             personList.add(nextPerson(Sex.M));
         });
         personList.forEach(person -> personDao.save(person));
 
         //when
-        List<Person> personListResult = personDao.findAllByGender(Sex.F);
+        final List<Person> personListResult = personDao.findAllByGender(Sex.F);
 
         //then
         assertThat(personListResult).isEmpty();
@@ -94,19 +108,19 @@ public class PersonDaoTest {
     @Test
     public void shouldFilterBySexAndEyeColor() {
         //given
-        Person person1 = nextPerson(Sex.F);
-        Person person2 = nextPerson(Sex.M);
-        Person person3 = nextPerson(Sex.F);
+        final Person person1 = nextPerson(Sex.F);
+        final Person person2 = nextPerson(Sex.M);
+        final Person person3 = nextPerson(Sex.F);
         person1.setEyeColor(EyeColor.BLUE);
         person2.setEyeColor(EyeColor.BLUE);
         person3.setEyeColor(EyeColor.BLUE);
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
-        List<Person> expected = Arrays.asList(person1,person3);
+        final List<Person> expected = Arrays.asList(person1,person3);
 
         //when
-        List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(Sex.F, EyeColor.BLUE, null);
+        final List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(Sex.F, EyeColor.BLUE, null);
 
         assertThat(personListResult)
                 .hasSameElementsAs(expected);
@@ -121,10 +135,10 @@ public class PersonDaoTest {
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
-        List<Person> expected = Collections.singletonList(person1);
+        final List<Person> expected = Collections.singletonList(person1);
 
         //when
-        List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(Sex.F, EyeColor.BLUE, 2);
+        final List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(Sex.F, EyeColor.BLUE, 2);
 
         assertThat(personListResult)
                 .hasSameElementsAs(expected);
@@ -139,10 +153,10 @@ public class PersonDaoTest {
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
-        List<Person> expected = Arrays.asList(person1, person2, person3);
+        final List<Person> expected = Arrays.asList(person1, person2, person3);
 
         //when
-        List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(null, null, null);
+        final List<Person> personListResult = ((PersonDaoImpl)personDao).findFiltered(null, null, null);
 
         assertThat(personListResult)
                 .hasSameElementsAs(expected);

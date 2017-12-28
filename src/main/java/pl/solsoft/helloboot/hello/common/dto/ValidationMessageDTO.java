@@ -1,4 +1,4 @@
-package pl.solsoft.helloboot.hello.common.to;
+package pl.solsoft.helloboot.hello.common.dto;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ValidationMessageTo {
+public class ValidationMessageDTO {
 
 	private List<String> messages;
 }

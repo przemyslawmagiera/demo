@@ -4,7 +4,7 @@ package pl.solsoft.helloboot.hello.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.solsoft.helloboot.hello.common.mapper.PersonMapper;
-import pl.solsoft.helloboot.hello.common.to.PersonTo;
+import pl.solsoft.helloboot.hello.common.dto.PersonDTO;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import pl.solsoft.helloboot.hello.persistence.repository.PersonRepository;
 
@@ -23,10 +23,10 @@ public class PersonController
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/create")
-    public PersonTo createPerson(@RequestBody @Valid PersonTo personTo) {
-        Person person = mapper.mapToPerson(personTo);
+    public PersonDTO createPerson(@RequestBody @Valid PersonDTO personDTO) {
+        Person person = mapper.mapToPerson(personDTO);
         Person createdPerson = personRepository.save(person);
-        PersonTo createdPersonTo = mapper.mapToPersonTo(createdPerson);
-        return createdPersonTo;
+        PersonDTO createdPersonDTO = mapper.mapToPersonDTO(createdPerson);
+        return createdPersonDTO;
     }
 }
