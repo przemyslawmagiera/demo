@@ -1,7 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '1.5.8.RELEASE'
-        psqlVersion = '9.4.1212.jre7'
+        psqlVersion = "9.4.1212.jre7"
         hibernateValidatorVersion = '5.3.6.Final'
         mockitoVersion = '1.10.19'
         h2Version = '1.4.194'
@@ -11,38 +11,27 @@ buildscript {
         assertJVersion = '3.8.0'
         lombokVersion = '1.16.18'
         mapstructVersion = '1.2.0.Final'
+        gsonVersion = '2.8.2'
     }
     repositories {
         mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.liquibase:liquibase-core:3.4.1")
-        classpath("org.liquibase:liquibase-gradle-plugin:1.1.1")
         classpath("org.postgresql:postgresql:$psqlVersion")
-        classpath('gradle.plugin.at.comm_unity.gradle.plugins:jpamodelgen-plugin:1.1.1')
     }
 }
+
 plugins {
     id 'org.liquibase.gradle' version '1.2.4'
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
     id 'net.ltgt.apt' version '0.10'
 }
 
-
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: "net.ltgt.apt"
-
 group = 'pl.solsoft.helloboot'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
-
 def changeLog = "$projectDir/src/main/db/changelog.xml"
-
 
 liquibase {
     activities {
@@ -55,25 +44,9 @@ liquibase {
     }
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java']
-        }
-
-    }
-    test {
-        java {
-            srcDirs = ['src/test/java']
-        }
-    }
-}
-
-
 repositories {
     mavenCentral()
 }
-
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion"
@@ -85,15 +58,15 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.mapstruct:mapstruct-jdk8:$mapstructVersion"
     compile "org.mapstruct:mapstruct-processor:$mapstructVersion"
-    compile 'com.google.code.gson:gson:2.8.2'
+    compile "com.google.code.gson:gson:$gsonVersion"
 
 
-    apt("org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion")
-    apt("org.projectlombok:lombok:$lombokVersion")
-    apt ("org.mapstruct:mapstruct-processor:$mapstructVersion")
+    apt "org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion"
+    apt "org.projectlombok:lombok:$lombokVersion"
+    apt "org.mapstruct:mapstruct-processor:$mapstructVersion"
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
-    testCompile "org.mockito:mockito-all:1.10.19"
+    testCompile "org.mockito:mockito-all:$mockitoVersion"
     testCompile "org.assertj:assertj-core:$assertJVersion"
     testCompile "com.h2database:h2:$h2Version"
 

@@ -59,10 +59,10 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
         optionalSex.ifPresent(sexOp -> predicates.add(builder.equal(root.get(Person_.sex), sexOp)));
 
         Optional<EyeColor> optionalEyeColor = Optional.ofNullable(eyeColor);
-        optionalEyeColor.ifPresent(eyeColorOp -> predicates.add(builder.equal(root.get(Person_.sex), eyeColorOp)));
+        optionalEyeColor.ifPresent(eyeColorOp -> predicates.add(builder.equal(root.get(Person_.eyeColor), eyeColorOp)));
 
         Optional<Integer> optionalNumberOfChildren = Optional.ofNullable(numberOfChildren);
-        optionalNumberOfChildren.ifPresent(numOp -> predicates.add(builder.equal(root.get(Person_.sex), numOp)));
+        optionalNumberOfChildren.ifPresent(numOp -> predicates.add(builder.equal(root.get(Person_.numberOfChildren), numOp)));
 
         criteria.select(root).where(builder.and(predicates.toArray(new Predicate[] {})));
 
