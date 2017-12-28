@@ -1,4 +1,4 @@
-package pl.solsoft.helloboot.hello.persistence.dao.impl;
+package pl.solsoft.helloboot.hello.persistence.repository.impl;
 
 
 import org.springframework.stereotype.Repository;
