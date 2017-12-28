@@ -52,7 +52,6 @@ public class Person implements Serializable {
     @NotBlank
     @Email
     @Size(max = 254)
-    @UniqueEmail
     @Column(name = "email", nullable = false, length = 255, unique = true)
     private String email;
 
