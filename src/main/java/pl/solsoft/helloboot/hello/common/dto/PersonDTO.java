@@ -21,6 +21,7 @@ public class PersonDTO {
 
     @NotBlank
     @Email
+    @UniqueEmail
     private String email;
 
     @NotNull

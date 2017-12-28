@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
+import pl.solsoft.helloboot.hello.validator.UniqueEmail;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -51,6 +52,7 @@ public class Person implements Serializable {
     @NotBlank
     @Email
     @Size(max = 254)
+    @UniqueEmail
     @Column(name = "email", nullable = false, length = 255, unique = true)
     private String email;
 

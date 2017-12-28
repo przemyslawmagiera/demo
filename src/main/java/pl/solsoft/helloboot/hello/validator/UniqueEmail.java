@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Target( ElementType.FIELD )
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
-    String message() default "Duplicate email!";
+    String message() default "Duplicate email";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -1,5 +1,7 @@
 package pl.solsoft.helloboot.hello.validator;
 
+import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.util.ObjectUtils;
 import pl.solsoft.helloboot.hello.persistence.repository.PersonRepository;
 
 import javax.annotation.Resource;
@@ -17,6 +19,6 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
-        return personRepository.existsByEmail(value);
+        return BooleanUtils.isFalse(personRepository.existsByEmail(value));
     }
 }
