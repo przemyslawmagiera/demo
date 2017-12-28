@@ -6,7 +6,7 @@ import pl.solsoft.helloboot.hello.persistence.entity.Person;
 
 import java.util.List;
 
-public interface PersonRepository extends JpaRepository<Person, Long>
+public interface PersonRepository extends JpaRepository<Person, Long>, PersonRepositoryCustom
 {
     Person findByEmail(String email);
     List<Person> findAllBySex(Sex sex);

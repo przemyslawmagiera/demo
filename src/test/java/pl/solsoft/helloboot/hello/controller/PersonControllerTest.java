@@ -21,6 +21,8 @@ import pl.solsoft.helloboot.hello.common.mapper.PersonMapper;
 import pl.solsoft.helloboot.hello.common.dto.PersonDTO;
 import pl.solsoft.helloboot.hello.common.dto.ValidationMessageDTO;
 import pl.solsoft.helloboot.hello.controller.advice.PersonControllerAdvice;
+import pl.solsoft.helloboot.hello.enumeration.EyeColor;
+import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.factory.TestObjectFactory;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import pl.solsoft.helloboot.hello.persistence.repository.PersonRepository;
@@ -30,6 +32,7 @@ import javax.annotation.Resource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -45,6 +48,7 @@ public class PersonControllerTest {
     public static final String NOT_NULL_MESSAGE = "NotNull - may not be null";
     public static final String NOT_UNIQUE_EMAIL = "UniqueEmail - Duplicate email";
     private static final String BASE_URL = "/person";
+    private final Person testPerson = new Person();
 
     @Resource
     private MockMvc mockMvc;
@@ -52,28 +56,34 @@ public class PersonControllerTest {
     @Resource
     private Gson gson;
 
-    @Resource
-    private PersonMapper mapper;
-
     @MockBean
     private PersonRepository personRepository;
+
+    @Before
+    public void setUp() {
+        testPerson.setEmail("test@test.pl");
+        testPerson.setEyeColor(EyeColor.BLUE);
+        testPerson.setName("Test");
+        testPerson.setNumberOfChildren(5);
+        testPerson.setSex(Sex.F);
+    }
 
     @Test
     public void shouldCreatePersonAndReturnDtoAndCreatedResponse() throws Exception {
         //given
-        final Person p = TestObjectFactory.nextPerson();
-        final PersonDTO personDTO = mapper.mapToPersonDTO(p);
+        final Person p = testPerson;
+        final String testPersonDtoJson = "{\"firstName\":\"Test\",\"email\":\"test@test.pl\",\"eyeColor\":\"BLUE\"" +
+                ",\"gender\":\"F\",\"kids\":5}";
 
         //when
         when(personRepository.save(p)).thenReturn(p);
         final ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(personDTO)));
-        final PersonDTO responsePersonDTO = gson
-                .fromJson(resultActions.andReturn().getResponse().getContentAsString(), PersonDTO.class);
+                .content(testPersonDtoJson));
+        final String responsePersonDTO = resultActions.andReturn().getResponse().getContentAsString();
         //then
         resultActions.andExpect(status().isCreated());
-        assertThat(personDTO)
+        assertThat(testPersonDtoJson)
                 .isEqualTo(responsePersonDTO);
         verify(personRepository).save(any(Person.class));
     }
@@ -81,16 +91,13 @@ public class PersonControllerTest {
     @Test
     public void shouldGiveAnValidationErrorAndBadRequestWhenParamsAreMissing() throws Exception {
         //given
-        final Person p = TestObjectFactory.nextPerson();
-        p.setName(null);
-        p.setEyeColor(null);
-        final PersonDTO personDTO = mapper.mapToPersonDTO(p);
+        final String testPersonDtoJson = "{\"email\":\"test@test.pl\"" +
+                ",\"gender\":\"F\",\"kids\":5}";
 
         //when
-        when(personRepository.save(p)).thenReturn(p);
         ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(personDTO)));
+                .content(testPersonDtoJson));
         final ValidationMessageDTO responseMessage = gson
                 .fromJson(resultActions.andReturn().getResponse().getContentAsString(), ValidationMessageDTO.class);
 
@@ -99,20 +106,19 @@ public class PersonControllerTest {
         assertThat(responseMessage.getMessages())
                 .contains(NOT_NULL_MESSAGE)
                 .contains(NOT_BLANK_MESSAGE);
+        verify(personRepository, never()).save(any(Person.class));
     }
 
     @Test
     public void shouldGiveAnValidationErrorAndBadRequestWhenEmailIsWrong() throws Exception {
         //given
-        final Person p = TestObjectFactory.nextPerson();
-        p.setEmail("qwerty");
-        final PersonDTO personDTO = mapper.mapToPersonDTO(p);
+        final String testPersonDtoJson = "{\"firstName\":\"Test\",\"email\":\"testest.pl\",\"eyeColor\":\"BLUE\"" +
+                ",\"gender\":\"F\",\"kids\":5}";
 
         //when
-        when(personRepository.save(p)).thenReturn(p);
         final ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(personDTO)));
+                .content(testPersonDtoJson));
         final ValidationMessageDTO responseMessage = gson
                 .fromJson(resultActions.andReturn().getResponse().getContentAsString(), ValidationMessageDTO.class);
 
@@ -120,20 +126,20 @@ public class PersonControllerTest {
         resultActions.andExpect(status().isBadRequest());
         assertThat(responseMessage.getMessages())
                 .contains(WRONG_EMAIL_MESSAGE);
+        verify(personRepository, never()).save(any(Person.class));
     }
 
     @Test
     public void shouldGiveAnValidationErrorAndBadRequestWhenEmailExists() throws Exception {
         //given
-        final Person p = TestObjectFactory.nextPerson();
-        final PersonDTO personDTO = mapper.mapToPersonDTO(p);
-        given(personRepository.existsByEmail(p.getEmail())).willReturn(true);
+        final String testPersonDtoJson = "{\"firstName\":\"Test\",\"email\":\"test@test.pl\",\"eyeColor\":\"BLUE\"" +
+                ",\"gender\":\"F\",\"kids\":5}";
+        given(personRepository.existsByEmail("test@test.pl")).willReturn(true);
 
         //when
-        when(personRepository.save(p)).thenReturn(p);
         final ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(personDTO)));
+                .content(testPersonDtoJson));
         final ValidationMessageDTO responseMessage = gson
                 .fromJson(resultActions.andReturn().getResponse().getContentAsString(), ValidationMessageDTO.class);
 
@@ -142,5 +148,6 @@ public class PersonControllerTest {
         assertThat(responseMessage.getMessages())
                 .contains(NOT_UNIQUE_EMAIL);
         verify(personRepository).existsByEmail(any(String.class));
+        verify(personRepository, never()).save(any(Person.class));
     }
 }
