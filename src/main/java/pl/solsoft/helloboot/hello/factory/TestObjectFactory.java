@@ -37,8 +37,27 @@ public class TestObjectFactory {
         } else {
             person.setEyeColor(EyeColor.BROWN);
         }
-        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@.test.pl");
+        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@test.pl");
         person.setSex(sex);
+        return person;
+    }
+
+    public static Person nextPerson() {
+        Person person = new Person();
+        Random random = new Random();
+        person.setNumberOfChildren(random.nextInt(10));
+        person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
+        if (random.nextBoolean()) {
+            person.setEyeColor(EyeColor.BLUE);
+        } else {
+            person.setEyeColor(EyeColor.BROWN);
+        }
+        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@test.pl");
+        if (random.nextBoolean()) {
+            person.setSex(Sex.M);
+        } else {
+            person.setSex(Sex.F);
+        }
         return person;
     }
 
@@ -52,7 +71,7 @@ public class TestObjectFactory {
         }else {
             person.setEyeColor(EyeColor.BROWN);
         }
-        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@.test.pl");
+        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@test.pl");
         person.setSex(sex);
         return person;
     }
@@ -63,7 +82,7 @@ public class TestObjectFactory {
         person.setNumberOfChildren(numberOfChildren);
         person.setName(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5));
         person.setEyeColor(eyeColor);
-        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@.test.pl");
+        person.setEmail(RandomStringUtils.randomAlphabetic(random.nextInt(10) + 5) + "@test.pl");
         person.setSex(sex);
         return person;
     }

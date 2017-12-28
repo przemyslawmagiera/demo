@@ -1,10 +1,8 @@
 package pl.solsoft.helloboot.hello.persistence.dao.impl;
 
 
-import com.sun.istack.internal.Nullable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
 import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
@@ -51,24 +49,21 @@ public class PersonDaoImpl extends AbstractDao<Person> implements PersonDao {
     }
 
 
-    public List<Person> findFiltered (@Nullable final Sex sex,@Nullable final EyeColor eyeColor,@Nullable final Integer numberOfChildren)
-    {
+    public List<Person> findFiltered (final Sex sex, final EyeColor eyeColor, final Integer numberOfChildren) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Person> criteria = builder.createQuery(Person.class);
         Root<Person> root = criteria.from(Person.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(sex != null)
-        {
-            predicates.add(builder.equal(root.get(Person_.sex), sex));
-        }
-        if(eyeColor != null)
-        {
-            predicates.add(builder.equal(root.get(Person_.eyeColor), eyeColor));
-        }
-        if(numberOfChildren != null)
-        {
-            predicates.add(builder.equal(root.get(Person_.numberOfChildren), numberOfChildren));
-        }
+
+        Optional<Sex> optionalSex = Optional.ofNullable(sex);
+        optionalSex.ifPresent(sexOp -> predicates.add(builder.equal(root.get(Person_.sex), sexOp)));
+
+        Optional<EyeColor> optionalEyeColor = Optional.ofNullable(eyeColor);
+        optionalEyeColor.ifPresent(eyeColorOp -> predicates.add(builder.equal(root.get(Person_.sex), eyeColorOp)));
+
+        Optional<Integer> optionalNumberOfChildren = Optional.ofNullable(numberOfChildren);
+        optionalNumberOfChildren.ifPresent(numOp -> predicates.add(builder.equal(root.get(Person_.sex), numOp)));
+
         criteria.select(root).where(builder.and(predicates.toArray(new Predicate[] {})));
 
         return entityManager.createQuery(criteria).getResultList();

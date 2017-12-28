@@ -19,6 +19,3 @@ gradle-app.setting
 /out/
 
 *.class
-gradle/
-gradlew
-*.bat

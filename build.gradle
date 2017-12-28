@@ -3,13 +3,14 @@ buildscript {
         springBootVersion = '1.5.8.RELEASE'
         psqlVersion = '9.4.1212.jre7'
         hibernateValidatorVersion = '5.3.6.Final'
-        mockitoVersion = '2.8.9'
+        mockitoVersion = '1.10.19'
         h2Version = '1.4.194'
         apacheCommonsVersion = '3.7'
         jpaMetamodelVersion = '5.2.12.Final'
         liquibaseVersion = '3.4.1'
         assertJVersion = '3.8.0'
         lombokVersion = '1.16.18'
+        mapstructVersion = '1.2.0.Final'
     }
     repositories {
         mavenCentral()
@@ -80,14 +81,19 @@ dependencies {
     compile "org.postgresql:postgresql:$psqlVersion"
     compile "org.apache.commons:commons-lang3:$apacheCommonsVersion"
     compile "org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion"
-    compile 'org.projectlombok:lombok:1.16.18'
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile "org.projectlombok:lombok:$lombokVersion"
+    compile "org.springframework.boot:spring-boot-starter-web"
+    compile "org.mapstruct:mapstruct-jdk8:$mapstructVersion"
+    compile "org.mapstruct:mapstruct-processor:$mapstructVersion"
+    compile 'com.google.code.gson:gson:2.8.2'
+
 
     apt("org.hibernate:hibernate-jpamodelgen:$jpaMetamodelVersion")
     apt("org.projectlombok:lombok:$lombokVersion")
+    apt ("org.mapstruct:mapstruct-processor:$mapstructVersion")
 
     testCompile "org.springframework.boot:spring-boot-starter-test"
-    testCompile "org.mockito:mockito-all:$mockitoVersion"
+    testCompile "org.mockito:mockito-all:1.10.19"
     testCompile "org.assertj:assertj-core:$assertJVersion"
     testCompile "com.h2database:h2:$h2Version"
 

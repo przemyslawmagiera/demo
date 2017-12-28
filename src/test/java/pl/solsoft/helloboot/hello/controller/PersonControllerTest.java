@@ -1,76 +1,109 @@
 package pl.solsoft.helloboot.hello.controller;
 
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.util.UriComponentsBuilder;
-import pl.solsoft.helloboot.hello.enumeration.Sex;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import pl.solsoft.helloboot.hello.common.mapper.PersonMapper;
+import pl.solsoft.helloboot.hello.common.to.PersonTo;
+import pl.solsoft.helloboot.hello.common.to.ValidationMessageTo;
 import pl.solsoft.helloboot.hello.factory.TestObjectFactory;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
-import pl.solsoft.helloboot.hello.persistence.entity.Person_;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @AutoConfigureMockMvc
-public class PersonControllerTest
-{
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class PersonControllerTest {
+    public static final String WRONG_EMAIL_MESSAGE = "Email - not a well-formed email address";
+    public static final String NOT_BLANK_MESSAGE = "NotBlank - may not be empty";
+    public static final String NOT_NULL_MESSAGE = "NotNull - may not be null";
+
     @Autowired
-    private TestRestTemplate restTemplate;
+    private PersonMapper mapper;
 
-    @LocalServerPort
-    private int port;
-
-    private static final String BASE_HTTP = "http://localhost:";
+    @Autowired
+    private MockMvc mockMvc;
 
     private static final String BASE_URL = "/person";
 
     @Test
-    public void shouldCreatePerson() {
+    public void shouldCreatePerson() throws Exception {
         //given
-        Person p = TestObjectFactory.nextPerson(Sex.M);
+        Person p = TestObjectFactory.nextPerson();
+        PersonTo personTo = mapper.mapToPersonTo(p);
+        PersonTo responsePersonTo;
+        Gson gson = new Gson();
 
         //when
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_HTTP + port + BASE_URL + "/create")
-                .queryParam(Person_.name.getName(), p.getName())
-                .queryParam(Person_.email.getName(), p.getEmail() + "@test.com")
-                .queryParam(Person_.eyeColor.getName(), p.getEyeColor())
-                .queryParam(Person_.sex.getName(), p.getSex())
-                .queryParam(Person_.numberOfChildren.getName(), p.getNumberOfChildren());
-        List<String> response = restTemplate.postForObject(builder.toUriString(),null, List.class);
+        ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(personTo)));
+        responsePersonTo = gson
+                .fromJson(resultActions.andReturn().getResponse().getContentAsString(), PersonTo.class);
 
         //then
-        assertThat(response)
-                .isEmpty();
+        resultActions.andExpect(status().isCreated());
+        assertThat(personTo)
+                .isEqualTo(responsePersonTo);
     }
 
     @Test
-    public void whenParamsAreMissingShouldGiveAnError() {
+    public void whenParamsAreMissingShouldGiveAnValidationErrorAndBadRequest() throws Exception {
         //given
-        Person p = TestObjectFactory.nextPerson(Sex.M);
+        Person p = TestObjectFactory.nextPerson();
+        p.setName(null);
+        p.setEyeColor(null);
+        PersonTo personTo = mapper.mapToPersonTo(p);
+        ValidationMessageTo responseMessage;
+        Gson gson = new Gson();
+
+
 
         //when
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(BASE_HTTP + port + BASE_URL + "/create")
-                .queryParam(Person_.email.getName(), p.getEmail() + "@test.com")
-                .queryParam(Person_.eyeColor.getName(), p.getEyeColor())
-                .queryParam(Person_.sex.getName(), p.getSex())
-                .queryParam(Person_.numberOfChildren.getName(), p.getNumberOfChildren());
-        String response = restTemplate.postForObject(builder.toUriString(),null, String.class);
+        ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(personTo)));
+        responseMessage = gson
+                .fromJson(resultActions.andReturn().getResponse().getContentAsString(), ValidationMessageTo.class);
 
         //then
-        assertThat(response)
-                .hasSize(2);
+        resultActions.andExpect(status().isBadRequest());
+        assertThat(responseMessage.getMessages())
+                .contains(NOT_NULL_MESSAGE)
+                .contains(NOT_BLANK_MESSAGE);
     }
 
+    @Test
+    public void whenEmailIsWrongShouldGiveAnValidationErrorAndBadRequest() throws Exception {
+        //given
+        Person p = TestObjectFactory.nextPerson();
+        p.setEmail("qwerty");
+        final PersonTo personTo = mapper.mapToPersonTo(p);
+        final ValidationMessageTo responseMessage;
+        Gson gson = new Gson();
 
+        //when
+        ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(gson.toJson(personTo)));
+        responseMessage = gson
+                .fromJson(resultActions.andReturn().getResponse().getContentAsString(), ValidationMessageTo.class);
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+        assertThat(responseMessage.getMessages())
+                .contains(WRONG_EMAIL_MESSAGE);
+    }
 }

@@ -35,11 +35,11 @@ public class PersonDaoTest {
     @Test
     public void shouldCreateAndNotFindPersonByEmail() {
         //given
-        Person person = nextPerson("test1@test.pl");
+        final Person person = nextPerson("test1@test.pl");
         personDao.save(person);
 
         //when
-        Person p = personDao.findPersonByEmail("test@test.pl");
+        final Person p = personDao.findPersonByEmail("test@test.pl");
         //then
         assertThat(p)
                 .isNull();
@@ -48,11 +48,11 @@ public class PersonDaoTest {
     @Test
     public void shouldCreateAndFindPersonByEmail() {
         //given
-        Person person = nextPerson("test@test.pl");
+        final Person person = nextPerson("test@test.pl");
         personDao.save(person);
 
         //when
-        Person p = personDao.findPersonByEmail(person.getEmail());
+        final Person p = personDao.findPersonByEmail(person.getEmail());
         //then
         assertThat(p)
                 .isEqualTo(person);
@@ -61,9 +61,9 @@ public class PersonDaoTest {
     @Test
     public void shouldCreateAndFindAllPeopleByGender() {
         //given
-        Person person1 = nextPerson(Sex.F);
-        Person person2 = nextPerson(Sex.M);
-        Person person3 = nextPerson(Sex.F);
+        final Person person1 = nextPerson(Sex.F);
+        final Person person2 = nextPerson(Sex.M);
+        final Person person3 = nextPerson(Sex.F);
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
@@ -94,9 +94,12 @@ public class PersonDaoTest {
     @Test
     public void shouldFilterBySexAndEyeColor() {
         //given
-        Person person1 = nextPerson(Sex.F,0, EyeColor.BLUE);
-        Person person2 = nextPerson(Sex.M,0, EyeColor.BLUE);
-        Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        Person person1 = nextPerson(Sex.F);
+        Person person2 = nextPerson(Sex.M);
+        Person person3 = nextPerson(Sex.F);
+        person1.setEyeColor(EyeColor.BLUE);
+        person2.setEyeColor(EyeColor.BLUE);
+        person3.setEyeColor(EyeColor.BLUE);
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
@@ -112,9 +115,9 @@ public class PersonDaoTest {
     @Test
     public void shouldFilterByNumberOfChildrenEyeColorAndSex() {
         //given
-        Person person1 = nextPerson(Sex.F,2, EyeColor.BLUE);
-        Person person2 = nextPerson(Sex.M,2, EyeColor.BLUE);
-        Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        final Person person1 = nextPerson(Sex.F,2, EyeColor.BLUE);
+        final Person person2 = nextPerson(Sex.M,2, EyeColor.BLUE);
+        final Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
@@ -130,9 +133,9 @@ public class PersonDaoTest {
     @Test
     public void shouldFilterByNothing() {
         //given
-        Person person1 = nextPerson(Sex.F,2, EyeColor.BLUE);
-        Person person2 = nextPerson(Sex.M,2, EyeColor.BLUE);
-        Person person3 = nextPerson(Sex.F,0, EyeColor.BLUE);
+        final Person person1 = nextPerson();
+        final Person person2 = nextPerson();
+        final Person person3 = nextPerson();
         personDao.save(person1);
         personDao.save(person2);
         personDao.save(person3);
@@ -144,8 +147,4 @@ public class PersonDaoTest {
         assertThat(personListResult)
                 .hasSameElementsAs(expected);
     }
-
-
-
-
 }
