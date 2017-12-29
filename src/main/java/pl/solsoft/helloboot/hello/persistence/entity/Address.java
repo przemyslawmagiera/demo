@@ -19,7 +19,6 @@ import java.util.List;
         @Index(name = "person_flat_number_idx", columnList = "flat_number", unique = false)
 })
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "id")
 @Getter
 @Setter
 public class Address implements Serializable {

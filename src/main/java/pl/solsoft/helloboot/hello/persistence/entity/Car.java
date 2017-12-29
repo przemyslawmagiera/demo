@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "car")
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"id", "person"})
+@EqualsAndHashCode(of = "plateNumber")
 @Getter
 @Setter
 public class Car implements Serializable {

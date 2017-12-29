@@ -6,13 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
-import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
+import pl.solsoft.helloboot.hello.persistence.repository.PersonRepository;
 import pl.solsoft.helloboot.hello.service.impl.PersonServiceImpl;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -29,7 +27,7 @@ public class PersonServiceTest {
     private PersonService personService = new PersonServiceImpl();
 
     @Mock
-    private PersonDao personDao;
+    private PersonRepository personDao;
 
     @Test
     public void shouldCountChildrenBySex() {
@@ -38,7 +36,7 @@ public class PersonServiceTest {
         IntStream.range(0, 15).forEach(integer -> personList.add(nextPerson(Sex.F, 5)));
 
         //when
-        when(personDao.findAllByGender(Sex.F)).thenReturn(personList);
+        when(personDao.findAllBySex(Sex.F)).thenReturn(personList);
         final int result = personService.countChildrenBySex(Sex.F);
 
         //then
@@ -51,12 +49,10 @@ public class PersonServiceTest {
         final ArrayList<Person> resultList = new ArrayList<>();
 
         //when
-        when(personDao.findAllByGender(Sex.F)).thenReturn(resultList);
+        when(personDao.findAllBySex(Sex.F)).thenReturn(resultList);
         final int result = personService.countChildrenBySex(Sex.F);
 
         //then
         assertThat(result).isEqualTo(0);
     }
-
-
 }

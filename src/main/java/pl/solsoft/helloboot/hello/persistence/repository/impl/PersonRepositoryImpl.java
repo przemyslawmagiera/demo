@@ -5,8 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
-import pl.solsoft.helloboot.hello.persistence.dao.PersonDao;
-import pl.solsoft.helloboot.hello.persistence.dao.old.AbstractDao;
 import pl.solsoft.helloboot.hello.persistence.entity.Person;
 import pl.solsoft.helloboot.hello.persistence.entity.Person_;
 import pl.solsoft.helloboot.hello.persistence.repository.PersonRepository;

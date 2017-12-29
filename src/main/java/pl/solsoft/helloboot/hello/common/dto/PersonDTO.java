@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import pl.solsoft.helloboot.hello.enumeration.EyeColor;
 import pl.solsoft.helloboot.hello.enumeration.Sex;
-import pl.solsoft.helloboot.hello.validator.UniqueEmail;
+import pl.solsoft.helloboot.hello.validator.UniqueEmailValidator.UniqueEmail;
 
 import javax.validation.constraints.NotNull;
 
@@ -20,8 +20,8 @@ public class PersonDTO {
     private String firstName;
 
     @NotBlank
-    @Email
     @UniqueEmail
+    @Email
     private String email;
 
     @NotNull

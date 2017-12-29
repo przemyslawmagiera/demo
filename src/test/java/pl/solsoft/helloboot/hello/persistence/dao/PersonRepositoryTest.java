@@ -119,6 +119,7 @@ public class PersonRepositoryTest {
         //when
         final List<Person> personListResult = personRepository.findFiltered(Sex.F, EyeColor.BLUE, null);
 
+        //then
         assertThat(personListResult)
                 .hasSameElementsAs(expected);
     }
@@ -137,6 +138,7 @@ public class PersonRepositoryTest {
         //when
         final List<Person> personListResult = personRepository.findFiltered(Sex.F, EyeColor.BLUE, 2);
 
+        //then
         assertThat(personListResult)
                 .hasSameElementsAs(expected);
     }
@@ -155,6 +157,7 @@ public class PersonRepositoryTest {
         //when
         final List<Person> personListResult = personRepository.findFiltered(null, null, null);
 
+        //then
         assertThat(personListResult)
                 .hasSameElementsAs(expected);
     }
